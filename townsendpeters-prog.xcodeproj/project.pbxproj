@@ -66,10 +66,10 @@
 			children = (
 				D699A82F1ABF6D17004AE275 /* main.cpp */,
 				D6357E0B1AC1168A00AD9F90 /* Common.h */,
-				D6357E051AC115A400AD9F90 /* HashADT.cpp */,
 				D6357E061AC115A400AD9F90 /* HashADT.h */,
-				D6357E081AC1163C00AD9F90 /* OtherFunctions.cpp */,
+				D6357E051AC115A400AD9F90 /* HashADT.cpp */,
 				D6357E091AC1163C00AD9F90 /* OtherFunctions.h */,
+				D6357E081AC1163C00AD9F90 /* OtherFunctions.cpp */,
 			);
 			path = "townsendpeters-prog";
 			sourceTree = "<group>";
