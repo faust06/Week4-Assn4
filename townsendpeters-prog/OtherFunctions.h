@@ -7,5 +7,6 @@
 #include "Common.h"
 
 double CalculateAverage(int );
+double CalculateKnuthAverage(int , int , double );
 
 #endif /* defined(__townsendpeters_prog__OtherFunctions__) */
