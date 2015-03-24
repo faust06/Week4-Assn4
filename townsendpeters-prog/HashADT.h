@@ -6,4 +6,6 @@
 
 #include "Common.h"
 
+double CalculateLoadFactor(int );
+
 #endif /* defined(__townsendpeters_prog__HashADT__) */

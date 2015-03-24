@@ -6,12 +6,10 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-    double avg;
     
-    avg = CalculateAverage(5000);
     
-    cout << "Average is: " << avg << endl;
-    
+    cout << "Load Factor: " << CalculateLoadFactor(20000) << endl;
+        
     cout << "Hello, Neil!\n";
     return 0;
 }
