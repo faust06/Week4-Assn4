@@ -1,9 +1,3 @@
-//
-//  HashADT.cpp
-//  townsendpeters-prog
-//
-//  Created by nrtownsend on 3/23/15.
-//  Copyright (c) 2015 nrtownsend. All rights reserved.
-//
+// File description goes here
 
 #include "HashADT.h"
