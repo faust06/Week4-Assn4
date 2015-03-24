@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D6357E071AC115A400AD9F90 /* HashADT.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6357E051AC115A400AD9F90 /* HashADT.cpp */; };
+		D6357E0A1AC1163C00AD9F90 /* OtherFunctions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D6357E081AC1163C00AD9F90 /* OtherFunctions.cpp */; };
 		D699A8301ABF6D17004AE275 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D699A82F1ABF6D17004AE275 /* main.cpp */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +25,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		D6357E051AC115A400AD9F90 /* HashADT.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HashADT.cpp; sourceTree = "<group>"; };
+		D6357E061AC115A400AD9F90 /* HashADT.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HashADT.h; sourceTree = "<group>"; };
+		D6357E081AC1163C00AD9F90 /* OtherFunctions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OtherFunctions.cpp; sourceTree = "<group>"; };
+		D6357E091AC1163C00AD9F90 /* OtherFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OtherFunctions.h; sourceTree = "<group>"; };
+		D6357E0B1AC1168A00AD9F90 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
 		D699A82C1ABF6D17004AE275 /* townsendpeters-prog */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "townsendpeters-prog"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D699A82F1ABF6D17004AE275 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +65,11 @@
 			isa = PBXGroup;
 			children = (
 				D699A82F1ABF6D17004AE275 /* main.cpp */,
+				D6357E0B1AC1168A00AD9F90 /* Common.h */,
+				D6357E051AC115A400AD9F90 /* HashADT.cpp */,
+				D6357E061AC115A400AD9F90 /* HashADT.h */,
+				D6357E081AC1163C00AD9F90 /* OtherFunctions.cpp */,
+				D6357E091AC1163C00AD9F90 /* OtherFunctions.h */,
 			);
 			path = "townsendpeters-prog";
 			sourceTree = "<group>";
@@ -119,6 +131,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D699A8301ABF6D17004AE275 /* main.cpp in Sources */,
+				D6357E0A1AC1163C00AD9F90 /* OtherFunctions.cpp in Sources */,
+				D6357E071AC115A400AD9F90 /* HashADT.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -232,6 +246,7 @@
 				D699A8351ABF6D17004AE275 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
