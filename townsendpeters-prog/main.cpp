@@ -7,7 +7,7 @@ using namespace std;
 int main(int argc, const char * argv[]) {
     
 	bool noMemory = false;				// handles memory allocation and allows for graceful exit of program
-	char moarHashPlz = '-';				// handles amount of testing that user wants to conduct, y to continue and n to stop
+	char runAgainChoice = ' ';			// handles amount of testing that user wants to conduct, y to continue and n to stop
     int hashTableSize = 0;				// size of hash table as defined by user
 	int menuChoice = 0;					// handles user input for menu options
     int *openHashTbl = NULL;			// initialize pointer for hash table
@@ -15,11 +15,8 @@ int main(int argc, const char * argv[]) {
     chnArray *chnHashTbl = NULL;		// initialize pointer for chained hash table type
     
     do{
-    	
-    	
     	// display menu for user and get menu choice
     	menuChoice = GetMenuChoice();
-    	
     	
     	// proceed to create and allocate memory for array of ints for hash table - QUADRATIC OR DOUBLE HASHING ONLY
     	if(menuChoice == MENU_QUADRATIC || menuChoice == MENU_DOUBLE){
@@ -98,10 +95,10 @@ int main(int argc, const char * argv[]) {
 		
 		
 		// check if user wants to continue testing or quit
-		moarHashPlz = KeepTesting();
+		runAgainChoice = KeepTesting();
 	
 	// if memory fails
-	}while(!noMemory && moarHashPlz != EXIT_PROGRAM);
+	}while(!noMemory && runAgainChoice != EXIT_PROGRAM);
     	
     return 0;
 }
