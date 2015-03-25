@@ -8,19 +8,23 @@ int main(int argc, const char * argv[]) {
     
 	bool noMemory = false;				// handles memory allocation and allows for graceful exit of program
 	char runAgainChoice = ' ';			// handles amount of testing that user wants to conduct, y to continue and n to stop
-    int hashTableSize = 0;				// size of hash table as defined by user
-	int menuChoice = 0;					// handles user input for menu options
-    int *openHashTbl = NULL;			// initialize pointer for hash table
-    int *idxStatusList = NULL;			// initialize pointer for corresponding index list for hash table
+    int hashTableSize = 0,				// size of hash table as defined by user
+        menuChoice = 0,					// handles user input for menu options
+        *openHashTbl = NULL,			// initialize pointer for hash table
+        *idxStatusList = NULL;			// initialize pointer for corresponding index list for hash table
     chnArray *chnHashTbl = NULL;		// initialize pointer for chained hash table type
     
     do{
     	// display menu for user and get menu choice
     	menuChoice = GetMenuChoice();
         
+        //asks user for size of hash table to be used
         hashTableSize = GetTableSize();
+        
+        //***************DEBUG******************
         cout << endl << "hashTableSize: " << hashTableSize << endl;
         cout << endl << "Load Factor: " << CalculateLoadFactor(20000) << endl;
+        //**************************************
         
         switch (menuChoice) {
             case MENU_QUADRATIC:
