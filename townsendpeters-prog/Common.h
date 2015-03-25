@@ -22,11 +22,22 @@ const int   HASH_TABLE_MINIMUM_SIZE = 6700,                     //smallest hasht
             TEST_QUADRATIC_PROBING = 1,                         //test number for quadratic probing collision resolution
             TEST_DOUBLE_HASHING = 2,                            //test number for double hasing collision resolution
             TEST_SEPARATE_CHAINING = 3;                         //test number for separate chaining hashtable
+            RANDOM_ARRAY_VALUE_MAX = 30000;                     //largest random value that can be placed into array
+            MENU_QUADRATIC = 1,                                 //menu option for quadratic hashing
+            MENU_DOUBLE = 2,                                    //menu option for double hashing
+            MENU_CHAINED = 3;                                   //menu option for chained hashing
+
+const char 	EXIT_PROGRAM = 'N',                                 //user can enter N to exit program after each test
+            CONT_PROGRAM = 'Y';                                 //user can enter Y to continue program after each test
 
 //structs
 struct hashNode {
     int value;
     hashNode *next;
+};
+
+struct chnArray {
+    chnArray *link;
 };
 
 
