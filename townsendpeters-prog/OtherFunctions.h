@@ -7,5 +7,10 @@
 #include "Common.h"
 
 double CalculateAverage(int );
+double CalculateKnuthAverage(int , int , double );
+int GetMenuChoice();
+int GetTableSize();
+char KeepTesting();
+
 
 #endif /* defined(__townsendpeters_prog__OtherFunctions__) */
