@@ -125,7 +125,6 @@ int GetTableSize(){
 	do{
 	
 		cout << "Please enter a hash table size (min val of 6700): ";
-	
 		cin >> userNum;
 	
 		// if not a number
@@ -191,3 +190,100 @@ char KeepTesting(){
 	return userChar;
 	
 }
+
+//*********************************************************************
+// FUNCTION: 		RandomNum()
+// DESCRIPTION: 	generates a random number between RANDOM_ARRAY_VALUE_MIN and RANDOM_ARRAY_VALUE_MAX
+// OUTPUT:
+// 	Return Val: 	newRandomNum
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+int RandomNum()
+{
+    int newRandomNum = 0;                           //randomly generated number
+
+    //generates random number within acceptable ranges
+    newRandomNum = random() % RANDOM_ARRAY_VALUE_MAX + RANDOM_ARRAY_VALUE_MIN;
+    
+    //returns new random number
+    return newRandomNum;
+}
+
+//*********************************************************************
+// FUNCTION: 		InitializeRandomArray()
+// DESCRIPTION: 	initializes the random array with RANDOM_ARRAY_UNIQUE_VALUES worth of random values
+// INPUT:
+// 	Parameters: 	randomArray[] - array that will contain unique random values
+// OUTPUT:
+// 	Parameters: 	randomArray[] - array that will contain unique random values
+// CALLS TO:        RandomNum()
+//                  DuplicateValue()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+bool DuplicateValue(int randomArray[], int newRandomNum, int randomCount)
+{
+    bool dupFound = false;                          //boolean to check whether newRandomNum already exists
+                                                    //in randomArray
+    
+    //checks all of randomArray to see if newRandomNum already exists
+    for(int dupCounter = 0; dupCounter < randomCount; dupCounter++) {
+        if(randomArray[dupCounter] == newRandomNum) {
+            dupFound = true;
+        }
+    }
+    
+    //returns boolean for whether or not newRandomNum is unique
+    return dupFound;
+}
+//*********************************************************************
+// FUNCTION: 		InitializeRandomArray()
+// DESCRIPTION: 	initializes the random array with RANDOM_ARRAY_UNIQUE_VALUES worth of random values
+// INPUT:
+// 	Parameters: 	randomArray[] - array that will contain unique random values
+// OUTPUT:
+// 	Parameters: 	randomArray[] - array that will contain unique random values
+// CALLS TO:        RandomNum()
+//                  DuplicateValue()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+void InitializeRandomArray(int randomArray[])
+{
+    int newRandomNum = 0;                          //randomly generated num to place into array if unique
+    
+    //seeds random number generator with the current time
+    srandom(time(NULL));
+    
+    //fills randomArray with unique random values
+    for(int randomCount = 0; randomCount < RANDOM_ARRAY_UNIQUE_VALUES; randomCount++) {
+        do {
+            //generates new random num
+            newRandomNum = RandomNum();
+        
+            //checks to make sure value does not already exist in array
+            if(!DuplicateValue(randomArray, newRandomNum, randomCount)) {
+                randomArray[randomCount] = newRandomNum;
+                cout << "Inserting new value: " << newRandomNum << " into index " << randomCount << endl;
+            }
+        }while(randomArray[randomCount] == 0);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

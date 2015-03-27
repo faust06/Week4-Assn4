@@ -10,6 +10,7 @@
 #include <fstream>
 #include <string>
 #include <cmath>
+#include <ctime>
 #include "HashADT.h"
 #include "OtherFunctions.h"
 

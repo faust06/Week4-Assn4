@@ -6,15 +6,22 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-	bool noMemory = false;				// handles memory allocation and allows for graceful exit of program
-	char runAgainChoice = ' ';			// handles amount of testing that user wants to conduct, y to continue and n to stop
-    int hashTableSize = 0,				// size of hash table as defined by user
-        menuChoice = 0,					// handles user input for menu options
-        *openHashTbl = NULL,			// initialize pointer for hash table
-        *idxStatusList = NULL;			// initialize pointer for corresponding index list for hash table
-    chnArray *chnHashTbl = NULL;		// initialize pointer for chained hash table type
+	bool noMemory = false;                                  // handles memory allocation and allows for graceful exit of program
+	char runAgainChoice = ' ';                              // handles amount of testing that user wants to conduct, y to continue and n to stop
+    int hashTableSize = 0,                                  // size of hash table as defined by user
+        menuChoice = 0,                                     // handles user input for menu options
+        *openHashTbl = NULL,                                // initialize pointer for hash table
+        *idxStatusList = NULL,                              // initialize pointer for corresponding index list for hash table
+        randomArray[RANDOM_ARRAY_UNIQUE_VALUES] = {0};      //array that will contain random values
+    chnArray *chnHashTbl = NULL;                            // initialize pointer for chained hash table type
     
-    do{
+    InitializeRandomArray(randomArray);
+    
+    for(int checkNum = 0; checkNum < RANDOM_ARRAY_UNIQUE_VALUES; checkNum++) {
+        cout << randomArray[checkNum] << endl;
+    }
+    
+    /*(do{
     	// display menu for user and get menu choice
     	menuChoice = GetMenuChoice();
         
@@ -60,7 +67,7 @@ int main(int argc, const char * argv[]) {
 		runAgainChoice = KeepTesting();
 	
 	// if memory fails
-	}while(!noMemory && runAgainChoice != EXIT_PROGRAM);
+	}while(!noMemory && runAgainChoice != EXIT_PROGRAM);*/
     	
     return 0;
 }
