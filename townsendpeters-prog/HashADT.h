@@ -7,7 +7,7 @@
 #include "Common.h"
 
 double CalculateLoadFactor(int );
-void InitializeOpenTbl(int*& ,int*& , int);
-struct chnArray *InitializeChnTbl(chnArray*& , int );
+void InitializeOpenTbl(int* & ,int* & , int );
+void InitializeChnTbl(struct chnArray* , int );
 
 #endif /* defined(__townsendpeters_prog__HashADT__) */
