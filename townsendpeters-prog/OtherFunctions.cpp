@@ -1,8 +1,9 @@
 // File description goes here
 
 #include "OtherFunctions.h"
+#include "Common.h"
 
-
+using namespace std;
 
 //*********************************************************************
 // FUNCTION: 		CalculateAvg()
@@ -74,30 +75,30 @@ int GetMenuChoice(){
 
 do{
 
-		std::cout << std::endl << "HASHING PROGRAM OF AWESOMENESS\n" << std::endl
+		cout << endl << "COLLISION RESOLUTION ANALYSIS PROGRAM\n" << endl
 			 	  << "1 - Quadratic Probing Hashing\n"
 			 	  << "2 - Double Hashing\n"
-			 	  << "3 - Chained Hashing\n" << std::endl
+			 	  << "3 - Chained Hashing\n" << endl
 			 	  << "Enter Menu Option (1/2/3): ";
 		 	  
-		std::cin >> menuChoice;
+		cin >> menuChoice;
 
 		// if not a number
-		if(std::cin.fail()){
+		if(cin.fail()){
 			
-			std::cout << std::endl << "invalid character -- ignoring line" << std::endl;
-			std::cin.clear();	// clear cin stream
-			std::cin.ignore(std::numeric_limits<int>::max(), '\n');	// numbers only
+			cout << endl << "invalid character -- ignoring line" << endl;
+			cin.clear();	// clear cin stream
+			cin.ignore(numeric_limits<int>::max(), '\n');	// numbers only
 						
 		} else if (menuChoice > MENU_CHAINED && menuChoice < MENU_QUADRATIC){
 		
-			std::cout << std::endl << "Must choose option 1, 2, or 3." << std::endl;
+			cout << endl << "Must choose option 1, 2, or 3." << endl;
 		
 		}// end if else if		
 	
 	}while(menuChoice != MENU_QUADRATIC && menuChoice != MENU_DOUBLE && menuChoice != MENU_CHAINED);
 	
-	std::cout << std::endl;
+	cout << endl;
 	
 	return menuChoice;
 	
@@ -123,20 +124,19 @@ int GetTableSize(){
     	// error check user input for >= 6700 hash table size 
 	do{
 	
-		std::cout << "Please enter a hash table size (min val of 6700): ";
-	
-		std::cin >> userNum;
+		cout << "Please enter a hash table size (min val of 6700): ";
+		cin >> userNum;
 	
 		// if not a number
-		if(std::cin.fail()){
+		if(cin.fail()){
 			
-			std::cout << std::endl << "invalid character -- ignoring line" << std::endl;
-			std::cin.clear();	// clear cin stream
-			std::cin.ignore(std::numeric_limits<int>::max(), '\n');	// numbers only
+			cout << endl << "invalid character -- ignoring line" << endl;
+			cin.clear();	// clear cin stream
+			cin.ignore(numeric_limits<int>::max(), '\n');	// numbers only
 						
 		} else if (userNum < HASH_TABLE_MINIMUM_SIZE){
 		
-			std::cout << std::endl << "Table size must be >= 6700." << std::endl;
+			cout << endl << "Table size must be >= 6700." << endl;
 		
 		}// end if else if	
 	
@@ -167,22 +167,21 @@ char KeepTesting(){
    	// error check user input for Y or N
 	do{
 	
-		std::cout << std::endl << "Do you want to conduct another hashing test?(Y/N): ";
-	
-		std::cin >> userChar;
+		cout << endl << "Do you want to conduct another hashing test?(Y/N): ";
+		cin >> userChar;
 		
 		userChar = toupper(userChar);
 		
 		//debug
-		std::cout << std::endl << "userChar: " << userChar << std::endl;	
+		cout << endl << "userChar: " << userChar << endl;	
 		system("PAUSE");
 	
 		// if not a number
 		if(userChar != EXIT_PROGRAM && userChar != CONT_PROGRAM){
 			
-			std::cout << std::endl << "invalid character -- ignoring line" << std::endl;
-			std::cin.clear();	// clear cin stream
-			std::cin.ignore(std::numeric_limits<char>::max(), '\n');	// char only
+			cout << endl << "invalid character -- ignoring line" << endl;
+			cin.clear();	// clear cin stream
+			cin.ignore(numeric_limits<char>::max(), '\n');	// char only
 						
 		} // end if
 	
@@ -191,3 +190,100 @@ char KeepTesting(){
 	return userChar;
 	
 }
+
+//*********************************************************************
+// FUNCTION: 		RandomNum()
+// DESCRIPTION: 	generates a random number between RANDOM_ARRAY_VALUE_MIN and RANDOM_ARRAY_VALUE_MAX
+// OUTPUT:
+// 	Return Val: 	newRandomNum
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+int RandomNum()
+{
+    int newRandomNum = 0;                           //randomly generated number
+
+    //generates random number within acceptable ranges
+    newRandomNum = random() % RANDOM_ARRAY_VALUE_MAX + RANDOM_ARRAY_VALUE_MIN;
+    
+    //returns new random number
+    return newRandomNum;
+}
+
+//*********************************************************************
+// FUNCTION: 		InitializeRandomArray()
+// DESCRIPTION: 	initializes the random array with RANDOM_ARRAY_UNIQUE_VALUES worth of random values
+// INPUT:
+// 	Parameters: 	randomArray[] - array that will contain unique random values
+// OUTPUT:
+// 	Parameters: 	randomArray[] - array that will contain unique random values
+// CALLS TO:        RandomNum()
+//                  DuplicateValue()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+bool DuplicateValue(int randomArray[], int newRandomNum, int randomCount)
+{
+    bool dupFound = false;                          //boolean to check whether newRandomNum already exists
+                                                    //in randomArray
+    
+    //checks all of randomArray to see if newRandomNum already exists
+    for(int dupCounter = 0; dupCounter < randomCount; dupCounter++) {
+        if(randomArray[dupCounter] == newRandomNum) {
+            dupFound = true;
+        }
+    }
+    
+    //returns boolean for whether or not newRandomNum is unique
+    return dupFound;
+}
+//*********************************************************************
+// FUNCTION: 		InitializeRandomArray()
+// DESCRIPTION: 	initializes the random array with RANDOM_ARRAY_UNIQUE_VALUES worth of random values
+// INPUT:
+// 	Parameters: 	randomArray[] - array that will contain unique random values
+// OUTPUT:
+// 	Parameters: 	randomArray[] - array that will contain unique random values
+// CALLS TO:        RandomNum()
+//                  DuplicateValue()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+void InitializeRandomArray(int randomArray[])
+{
+    int newRandomNum = 0;                          //randomly generated num to place into array if unique
+    
+    //seeds random number generator with the current time
+    srandom(time(NULL));
+    
+    //fills randomArray with unique random values
+    for(int randomCount = 0; randomCount < RANDOM_ARRAY_UNIQUE_VALUES; randomCount++) {
+        do {
+            //generates new random num
+            newRandomNum = RandomNum();
+        
+            //checks to make sure value does not already exist in array
+            if(!DuplicateValue(randomArray, newRandomNum, randomCount)) {
+                randomArray[randomCount] = newRandomNum;
+                cout << "Inserting new value: " << newRandomNum << " into index " << randomCount << endl;
+            }
+        }while(randomArray[randomCount] == 0);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
