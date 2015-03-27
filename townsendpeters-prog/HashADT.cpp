@@ -2,6 +2,7 @@
 
 #include "HashADT.h"
 
+using namespace std;
 
 //*********************************************************************
 // FUNCTION: 		CalculateLoadFactor()
@@ -52,8 +53,8 @@ void InitializeOpenTbl(int* &openHashTbl, int* &idxStatusList, int hashTableSize
 {
 
 	// allocate memory for arrays
-	openHashTbl = new (std::nothrow) int[hashTableSize];
-	idxStatusList = new (std::nothrow) int[hashTableSize];
+	openHashTbl = new (nothrow) int[hashTableSize];
+	idxStatusList = new (nothrow) int[hashTableSize];
 
 	// initialize all cells in openHashTable and idxStatusList to 0	
 	for(int i = 0; i < hashTableSize; i++){
@@ -81,11 +82,11 @@ void InitializeOpenTbl(int* &openHashTbl, int* &idxStatusList, int hashTableSize
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 
-chnArray *InitializeChnTbl(chnArray* &chnHashTbl, int hashTableSize)
+void InitializeChnTbl(struct chnArray *chnHashTbl, int hashTableSize)
 {
 
 	// allocate memory for array OF POINTERS
-	chnHashTbl = new (std::nothrow) chnArray[hashTableSize];
+	chnHashTbl = new (nothrow) chnArray[hashTableSize];
 
 	// initialize all cells in openHashTable and idxStatusList to 0	
 	for(int i = 0; i < hashTableSize; i++){
