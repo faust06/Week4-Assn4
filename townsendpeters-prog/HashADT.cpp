@@ -109,6 +109,7 @@ void InitializeChnTbl(struct chnArray *chnHashTbl, int hashTableSize)
 //                  FindOpenValue()
 //                  CalculateAvg()
 //                  CalculateKnuthAvg()
+//                  CalculateLoadFactor()
 // IMPLEMENTED BY: 	Neil Townsend
 //**********************************************************************
 void HashSearching(int testNum, int randomArray[], int *openHashTable, struct chnArray *chnHashTable, int hashTableSize, int *idxStatusList, double &avg, double &kAvg)
@@ -118,9 +119,9 @@ void HashSearching(int testNum, int randomArray[], int *openHashTable, struct ch
     //checks which test is being run and calls the appropriate function
     switch (testNum) {
         case TEST_QUADRATIC_PROBING:
-        case TEST_DOUBLE_HASHING: totalSearches = FindOpenValue(testNum, randomArray, openHashTable, idxStatusList);
+        case TEST_DOUBLE_HASHING: totalSearches = FindOpenValue(testNum, randomArray, openHashTable, idxStatusList, hashTableSize);
             break;
-        case TEST_SEPARATE_CHAINING: totalSearches = FindChainValue(testNum, randomArray, chnHashTable);
+        case TEST_SEPARATE_CHAINING: totalSearches = FindChainValue(randomArray, chnHashTable, hashTableSize);
             break;
         default:
             break;
@@ -130,10 +131,55 @@ void HashSearching(int testNum, int randomArray[], int *openHashTable, struct ch
     kAvg = CalculateKnuthAverage(totalSearches, testNum, CalculateLoadFactor(hashTableSize));
 }
 
+//*********************************************************************
+// FUNCTION: 		FindOpenValue()
+// DESCRIPTION: 	controlling function that finds values in hash table and counts
+//                  how many searches were needed to find all the values
+// INPUT:
+// 	Parameters:     testNum - test number that is currently being run
+//                  randomArray - random array containing unique integers
+//                  openHashTbl - hash table array of integers for open addressing
+//					idxStatusList - array the same size as hash table indicating
+//                                  that the corresponding position in the hashtable is empty
+//                                  (0, empty, 1, full, -1, removed)
+//					hashTableSize - size of hash table from user
+// OUTPUT:
+// 	Return Value: 	totalSearches - total number of searches needed to find all values
+// CALLS TO:        HashValue()
+//                  DoubleHashValue()
+//                  QuadraticProbe()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+int FindOpenValue(int testNum,int randomArray[],int *openHashTable,int *idxStatusList, int hashTableSize)
+{
+    int totalSearches = 0;                  //total number of searches needed to find values in the hash table
+    
+    
+    
+    return totalSearches;
+}
 
-
-
-
+//*********************************************************************
+// FUNCTION: 		FindChainValue()
+// DESCRIPTION: 	controlling function that finds values in hash table and counts
+//                  how many searches were needed to find all the values
+// INPUT:
+// 	Parameters:     randomArray - random array containing unique integers
+//                  chnHashTbl - hash table array of integers for open addressing
+//					hashTableSize - size of hash table from user
+// OUTPUT:
+// 	Return Value: 	totalSearches - total number of searches needed to find all values
+// CALLS TO:        HashValue()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+int FindChainValue(int randomArray[], struct chnArray *chnHashTable, int hashTableSize)
+{
+    int totalSearches = 0;                  //total number of searches needed to find values in the hash table
+    
+    
+    
+    return totalSearches;
+}
 
 
 
