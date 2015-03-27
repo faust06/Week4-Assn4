@@ -210,14 +210,14 @@ int RandomNum()
 }
 
 //*********************************************************************
-// FUNCTION: 		InitializeRandomArray()
-// DESCRIPTION: 	initializes the random array with RANDOM_ARRAY_UNIQUE_VALUES worth of random values
+// FUNCTION: 		DuplicateValue()
+// DESCRIPTION: 	Checks to see if a value already exists in randomArray and returns boolean to that effect
 // INPUT:
 // 	Parameters: 	randomArray[] - array that will contain unique random values
+//                  newRandomNum - num to check and see already exists in randomArray
+//                  randomCount - number to search through in randomArray
 // OUTPUT:
-// 	Parameters: 	randomArray[] - array that will contain unique random values
-// CALLS TO:        RandomNum()
-//                  DuplicateValue()
+// 	Parameters: 	dupFound - boolean for whether number already exists in randomArray
 // IMPLEMENTED BY: 	Neil Townsend
 //**********************************************************************
 bool DuplicateValue(int randomArray[], int newRandomNum, int randomCount)
