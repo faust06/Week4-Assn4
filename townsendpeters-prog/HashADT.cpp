@@ -222,7 +222,9 @@ void HashSearching(int testNum, int randomArray[], int *openHashTable, struct ch
 //					openHashTbl[] - hash table array of integers for open 
 //					addressing
 //
-//					initialAddress - initial array index
+//					hashVal - hashed value from the initial value from random array
+//
+//					initialValue - random integer value from random array 
 //
 //					hashTableSize - size of hash table from user
 //
@@ -233,31 +235,30 @@ void HashSearching(int testNum, int randomArray[], int *openHashTable, struct ch
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 
-int QuadraticProbe(int openHashTbl[], int initialAddress, int hashTableSize){
+int QuadraticProbe(int openHashTbl[], int hashVal, int initialValue, int hashTableSize){
 	
-	int probeNum = PROBE_NUM_START;	// there has to be at least 1 collision for quadratic probing
-	int nextAddress = 0;			// temp var to hold the next potential array index 
-	int finalAddress = 0;			// final var for storing the hash value (no collision)
+	int probeNum = PROBE_NUM_START;		// starts probe at 1 because there is already a collision or
+						// identical index 
+	int nextAddress = 0;			// tries another idx address to store initialValue
+	int finalAddress = 0;			// final idx address
 	
 	do {
-		// find next address since initial address doesn't work
-		nextAddress = (probeNum * probeNum) + initialAddress;
-		
-		// if next address contains something
-		if(openHashTbl[nextAddress] != 0){
-		
-			probeNum++;
-			nextAddress = (probeNum * probeNum) + initialAddress; 	// find another address
-		
-		} else if(openHashTbl[nextAddress] == 0){
+		// if idx is full or the new address is the same as the initialValue
+		if(openHashTbl[nextAddress] != 0 || nextAddress == initialValue){
 			
-			// when nextAddress is finally empty create the final address
+			//change idx
+			nextAddress = (probeNum * probeNum) + hashVal;
+			probeNum++;
+			
+		}else if(openHashTbl[nextAddress] == 0 && nextAddress == initialValue){
+			
+			// keep address if it is not identical and is empty
 			finalAddress = nextAddress % hashTableSize;
+			
+		}
 		
-		} // end if else if
+	}while(finalAddress == 0 && finalAddress == initialValue);
 	
-	// continue to loop unless finalAddress has a value other than 0	
-	}while(finalAddress == 0);
 	
 	return finalAddress;
 }
