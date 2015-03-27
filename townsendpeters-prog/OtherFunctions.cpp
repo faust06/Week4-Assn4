@@ -1,8 +1,9 @@
 // File description goes here
 
 #include "OtherFunctions.h"
+#include "Common.h"
 
-
+using namespace std;
 
 //*********************************************************************
 // FUNCTION: 		CalculateAvg()
@@ -58,6 +59,27 @@ double CalculateKnuthAverage(int totalSearches, int testNum, double loadFactor)
 }
 
 //*********************************************************************
+// FUNCTION: 		RandomNum
+// DESCRIPTION: 	Returns random integer between 1 - 30,000
+//
+//OUTPUT:
+//  Return Val:		rNum - random integer between 1 - 30,000
+//
+// IMPLEMENTED BY: 	Chad Peters
+//**********************************************************************
+
+int RandomNum(){
+	
+	int rNum = 0;
+	
+	rNum = RANDOM_ARRAY_VALUE_MIN + (rand() % (int)(RANDOM_ARRAY_VALUE_MAX - RANDOM_ARRAY_VALUE_MIN + 1));
+	
+	return rNum;
+	
+}
+
+
+//*********************************************************************
 // FUNCTION: 		GetMenuChoice
 // DESCRIPTION: 	Gets menu choice from user and error checks it
 //INPUT:
@@ -75,30 +97,30 @@ int GetMenuChoice(){
 
 do{
 
-		std::cout << std::endl << "HASHING PROGRAM OF AWESOMENESS\n" << std::endl
+		cout << endl << "COLLISION RESOLUTION ANALYSIS PROGRAM\n" << endl
 			 	  << "1 - Quadratic Probing Hashing\n"
 			 	  << "2 - Double Hashing\n"
-			 	  << "3 - Chained Hashing\n" << std::endl
+			 	  << "3 - Chained Hashing\n" << endl
 			 	  << "Enter Menu Option (1/2/3): ";
 		 	  
-		std::cin >> menuChoice;
+		cin >> menuChoice;
 
 		// if not a number
-		if(std::cin.fail()){
+		if(cin.fail()){
 			
-			std::cout << std::endl << "invalid character -- ignoring line" << std::endl;
-			std::cin.clear();	// clear cin stream
-			std::cin.ignore(std::numeric_limits<int>::max(), '\n');	// numbers only
+			cout << endl << "invalid character -- ignoring line" << endl;
+			cin.clear();	// clear cin stream
+			cin.ignore(numeric_limits<int>::max(), '\n');	// numbers only
 						
 		} else if (menuChoice > MENU_CHAINED && menuChoice < MENU_QUADRATIC){
 		
-			std::cout << std::endl << "Must choose option 1, 2, or 3." << std::endl;
+			cout << endl << "Must choose option 1, 2, or 3." << endl;
 		
 		}// end if else if		
 	
 	}while(menuChoice != MENU_QUADRATIC && menuChoice != MENU_DOUBLE && menuChoice != MENU_CHAINED);
 	
-	std::cout << std::endl;
+	cout << endl;
 	
 	return menuChoice;
 	
@@ -124,20 +146,20 @@ int GetTableSize(){
     	// error check user input for >= 6700 hash table size 
 	do{
 	
-		std::cout << "Please enter a hash table size (min val of 6700): ";
+		cout << "Please enter a hash table size (min val of 6700): ";
 	
-		std::cin >> userNum;
+		cin >> userNum;
 	
 		// if not a number
-		if(std::cin.fail()){
+		if(cin.fail()){
 			
-			std::cout << std::endl << "invalid character -- ignoring line" << std::endl;
-			std::cin.clear();	// clear cin stream
-			std::cin.ignore(std::numeric_limits<int>::max(), '\n');	// numbers only
+			cout << endl << "invalid character -- ignoring line" << endl;
+			cin.clear();	// clear cin stream
+			cin.ignore(numeric_limits<int>::max(), '\n');	// numbers only
 						
 		} else if (userNum < HASH_TABLE_MINIMUM_SIZE){
 		
-			std::cout << std::endl << "Table size must be >= 6700." << std::endl;
+			cout << endl << "Table size must be >= 6700." << endl;
 		
 		}// end if else if	
 	
@@ -168,27 +190,119 @@ char KeepTesting(){
    	// error check user input for Y or N
 	do{
 	
-		std::cout << std::endl << "Do you want to conduct another hashing test?(Y/N): ";
+		cout << endl << "Do you want to conduct another hashing test?(Y/N): ";
 	
-		std::cin >> userChar;
+		cin >> userChar;
 		
 		userChar = toupper(userChar);
 		
 		//debug
-		std::cout << std::endl << "userChar: " << userChar << std::endl;	
+		cout << endl << "userChar: " << userChar << endl;	
 		system("PAUSE");
 	
 		// if not a number
 		if(userChar != EXIT_PROGRAM && userChar != CONT_PROGRAM){
 			
-			std::cout << std::endl << "invalid character -- ignoring line" << std::endl;
-			std::cin.clear();	// clear cin stream
-			std::cin.ignore(std::numeric_limits<char>::max(), '\n');	// char only
+			cout << endl << "invalid character -- ignoring line" << endl;
+			cin.clear();	// clear cin stream
+			cin.ignore(numeric_limits<char>::max(), '\n');	// char only
 						
 		} // end if
 	
 	}while(userChar != CONT_PROGRAM && userChar != EXIT_PROGRAM); // end do while
 	
 	return userChar;
+	
+}
+
+//*********************************************************************
+// FUNCTION: 		DuplicateValue
+// DESCRIPTION: 	Searches through random array to make sure that
+//					new random value does not already exist in array.
+//INPUT:
+//					randomArray[] - array containing random integers
+//					between the values of 1 - 30,000
+//
+//					searchValue - new value to search through array for	
+//
+//OUTPUT:
+//  Return Val:		dupFound - boolean for whether there is a duplicate
+//					value
+//
+// IMPLEMENTED BY: 	Chad Peters
+//**********************************************************************
+
+bool DuplicateValue(int randomArray[], int arrayCounter, int searchValue){
+	
+	int i = 0;
+	bool dupFound = false;
+	
+	while(i < arrayCounter && !dupFound){
+		
+		// change dupFound to true if duplicate num is found
+		if(searchValue == randomArray[i]){
+			
+			dupFound = true;
+			
+		} // end if
+		
+		i++;	// increment loop counter
+		
+	} // end while
+	
+	return dupFound;
+	
+}
+
+//*********************************************************************
+// FUNCTION: 		InitializeRandomArray
+// DESCRIPTION: 	Initializes random array with 5000 random values
+//
+//INPUT:
+//					randomArray[] - empty array
+//
+//OUTPUT:
+//  Return Val:		randomArray[] - array of random integers between the 
+//					range of 1 - 30,000 -- no duplicates
+//
+//CALLS TO:			RandomNum()
+//					DuplicateValue()
+//	
+// IMPLEMENTED BY: 	Chad Peters
+//**********************************************************************
+
+void InitializeRandomArray(int randomArray[]){
+	
+	int rNum = 0;
+	bool dupFound = false;
+	
+	//seeds random number generator with system clock
+	srand(time(NULL));
+	
+	for(int arrayCounter = 0; arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES; arrayCounter++){
+		
+		// get random num
+		rNum = RandomNum();
+
+		// first time no dupes, so add to array
+		if( arrayCounter == 0){
+		
+			randomArray[arrayCounter] = rNum;
+			
+		} // end if
+		
+		if(!DuplicateValue(randomArray, arrayCounter, rNum)){
+			
+			// if no dupes add random int to array
+			randomArray[arrayCounter] = rNum;
+				
+		} else {
+			
+			// if dupe is found subtract from arrayCounter to ensure array will be filled
+			arrayCounter--;
+			
+		}// end if else
+			
+	} // end for
 	
 }
