@@ -169,7 +169,6 @@ char KeepTesting(){
 	do{
 	
 		cout << endl << "Do you want to conduct another hashing test?(Y/N): ";
-	
 		cin >> userChar;
 		
 		userChar = toupper(userChar);

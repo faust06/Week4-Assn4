@@ -9,5 +9,7 @@
 double CalculateLoadFactor(int );
 void InitializeOpenTbl(int* & ,int* & , int);
 void InitializeChnTbl(struct chnArray* , int );
+void HashSearching(int, int [], int * , struct chnArray * , int , int *, double & , double & );
+
 
 #endif /* defined(__townsendpeters_prog__HashADT__) */

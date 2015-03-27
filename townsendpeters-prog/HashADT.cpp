@@ -37,13 +37,10 @@ double CalculateLoadFactor(int hashTableSize)
 //					hashTableSize - size of hash table from user
 //
 // OUTPUT:
-// 	Return Val: 	openHashTbl - initialized array of ints for hash table
-//
-//  Parameters:
+// 	Parameters: 	openHashTbl - initialized array of ints for hash table
 //					idxStatusList - initialized array of corresponding ints
 //                                  as indicators for hash table (0, empty, 1, full, -1, removed)
 //                                  passed back by reference
-//
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 void InitializeOpenTbl(int* &openHashTbl, int* &idxStatusList, int hashTableSize)
@@ -71,7 +68,7 @@ void InitializeOpenTbl(int* &openHashTbl, int* &idxStatusList, int hashTableSize
 //					hashTableSize - size of hash table from user
 //
 // OUTPUT:
-// 	Return Val: 	chnHashTbl - initialized array of ints for hash table
+// 	Parameters: 	chnHashTbl - initialized array of ints for hash table
 //					passed back by reference
 //
 // IMPLEMENTED BY: 	Chad Peters
@@ -89,3 +86,57 @@ void InitializeChnTbl(struct chnArray *chnHashTbl, int hashTableSize)
 		
 	} // end for
 }
+
+//*********************************************************************
+// FUNCTION: 		HashSearching()
+// DESCRIPTION: 	checks to see which test is being run and calls the appropriate search function, then calculates the
+//                  average number of searches per value as well as the predicted number of searches per value
+// INPUT:
+// 	Parameters:     testNum - test number that is currently being run
+//                  randomArray - random array containing unique integers
+//                  openHashTbl - hash table array of integers for open addressing
+//                  chnHashTbl - hash table array of pointers for chained hashing
+//					hashTableSize - size of hash table from user
+//					idxStatusList - array the same size as hash table indicating
+//                                  that the corresponding position in the hashtable is empty
+//                                  (0, empty, 1, full, -1, removed)
+//                  avg - average number of searches needed to find a value
+//                  kAvg - predicted number of searches needed to find a value
+// OUTPUT:
+// 	Parameters: 	avg - average number of searches needed to find a value
+//                  kAvg - predicted number of searches needed to find a value
+// CALLS TO:        FindChainValue()
+//                  FindOpenValue()
+//                  CalculateAvg()
+//                  CalculateKnuthAvg()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+void HashSearching(int testNum, int randomArray[], int *openHashTable, struct chnArray *chnHashTable, int hashTableSize, int *idxStatusList, double &avg, double &kAvg)
+{
+    int totalSearches;                      //total number of searches to find values in a given hash table
+    
+    //checks which test is being run and calls the appropriate function
+    switch (testNum) {
+        case TEST_QUADRATIC_PROBING:
+        case TEST_DOUBLE_HASHING: totalSearches = FindOpenValue(testNum, randomArray, openHashTable, idxStatusList);
+            break;
+        case TEST_SEPARATE_CHAINING: totalSearches = FindChainValue(testNum, randomArray, chnHashTable);
+            break;
+        default:
+            break;
+    }
+    
+    avg = CalculateAverage(totalSearches);
+    kAvg = CalculateKnuthAverage(totalSearches, testNum, CalculateLoadFactor(hashTableSize));
+}
+
+
+
+
+
+
+
+
+
+
+
