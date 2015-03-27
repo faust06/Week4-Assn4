@@ -6,14 +6,22 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-	bool noMemory = false;									// handles memory allocation and allows for graceful exit of program
-	char runAgainChoice = '-';								// handles amount of testing that user wants to conduct, y to continue and n to stop
-    int hashTableSize = 0,									// size of hash table as defined by user
-		menuChoice = 0,										// handles user input for menu options
-		randomArray[RANDOM_ARRAY_UNIQUE_VALUES] = {0},		// initalize randomArray to 5000 cells
+	bool noMemory = false;								// handles memory allocation and allows for graceful exit of program
+	char runAgainChoice = '-';							// handles amount of testing that user wants to conduct, y to continue and n to stop
+    int hashTableSize = 0,								// size of hash table as defined by user
+		menuChoice = 0,								// handles user input for menu options
+		randomArray[RANDOM_ARRAY_UNIQUE_VALUES] = {0},				// initalize randomArray to 5000 cells
+		initialValue = 0,							// placeholder for each initial value to be hashed
+		arrayCounter = 0,							// random array counter
+		hashVal = 0,								// hashed initial value
     	*openHashTbl = NULL,								// initialize pointer for hash table
     	*idxStatusList = NULL;								// initialize pointer for corresponding index list for hash table
     chnArray *chnHashTbl = NULL;							// initialize pointer for chained hash table type
+    //******DEBUG***********
+    int htSameCounter;
+    ofstream dataOut;
+    string filename = "testfile.txt";
+    //******DEBUG***********
     
     // put random numbers into an array for use in every test
     InitializeRandomArray(randomArray);
@@ -41,6 +49,65 @@ int main(int argc, const char * argv[]) {
     	switch (menuChoice){
     		
     		case MENU_QUADRATIC:
+
+    			// Initialize our hashtable and corresponding index list
+    			// Check for memory alloc fail
+  				try {
+	
+					InitializeOpenTbl(openHashTbl, idxStatusList, hashTableSize);
+		
+				} catch (bad_alloc& ex){
+		
+					cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+					noMemory = true; 
+				
+				} // end try catch 
+				
+				do {
+				
+					initialValue = randomArray[arrayCounter];
+					arrayCounter++;
+					
+					hashVal = HashValue(initialValue, hashTableSize);
+				
+					if(idxStatusList[hashVal] == 0 && hashVal != initialValue){
+				
+						openHashTbl[hashVal] = initialValue;
+						idxStatusList[hashVal] = DATA_IN_CELL;
+					
+					} else {
+
+						finalAddress = QuadraticProbe(openHashTbl, hashVal, initialValue, hashTableSize);
+				
+						openHashTbl[finalAddress] = initialValue;
+						idxStatusList[finalAddress] = DATA_IN_CELL;
+					
+					}
+				
+				}while(arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES);
+
+    			//**************************DEBUG******************************
+    			htSameCounter = 0;
+    			dataOut.open(filename.c_str());
+    			for(int checkNum = 0; checkNum < hashTableSize; checkNum++){
+    	
+    			 	dataOut << "openHashTbl[" << checkNum << "]: " << openHashTbl[checkNum] << "\n";
+    			 	if(checkNum == openHashTbl[checkNum]){
+    			 		
+    			 		htSameCounter++;
+    			 		
+					 }
+    	
+				} // end for
+				dataOut.close();
+				
+				cout << "htSameCounter: " << htSameCounter << "\n";
+    			//**************************DEBUG*********************************
+    			
+    			arrayCounter = 0;
+				
+    			break;    			
+
     		case MENU_DOUBLE:
     			
     			// Initialize our hashtable and corresponding index list
@@ -54,7 +121,8 @@ int main(int argc, const char * argv[]) {
 					cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
 					noMemory = true; 
 				
-				} // end try catch  			
+				} // end try catch 
+				
     			break;
     			
     		case MENU_CHAINED:
