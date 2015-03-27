@@ -6,6 +6,7 @@
 
 #include "Common.h"
 
+int HashValue(int , int );
 double CalculateLoadFactor(int );
 void InitializeOpenTbl(int* & ,int* & , int);
 void InitializeChnTbl(struct chnArray* , int );

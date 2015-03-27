@@ -6,6 +6,27 @@
 using namespace std;
 
 //*********************************************************************
+// FUNCTION: 		HashValue()
+// DESCRIPTION: 	calculates the initial hash value by using modulo-division
+// INPUT:
+// 	Parameters: 	initialValue - initial value to be hashed
+//                  HashTableSize - size of hash table used to hash initial value
+// OUTPUT:
+// 	Return Val: 	hashVal - hashed value of initialValue to use for hashtable index
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+int HashValue(int initialValue, int hashTableSize)
+{
+    int hashVal;                                //hashed value of initialValue
+    
+    //calculates the initial hash value by using modulo-division
+    hashVal = initialValue % hashTableSize;
+    
+    //returns initial hash value
+    return hashVal;
+}
+
+//*********************************************************************
 // FUNCTION: 		CalculateLoadFactor()
 // DESCRIPTION: 	calculates the load factor for a hash table given the hashtable's size
 // INPUT:
