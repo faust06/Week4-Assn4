@@ -96,3 +96,208 @@ void InitializeChnTbl(struct chnArray *chnHashTbl, int hashTableSize)
 	} // end for
 	
 }
+
+//*********************************************************************
+// FUNCTION: 		FindOpenValue()
+// DESCRIPTION: 	controlling function that finds values in hash table and counts
+//                  how many searches were needed to find all the values
+// INPUT:
+// 	Parameters:     testNum - test number that is currently being run
+//                  randomArray - random array containing unique integers
+//                  openHashTbl - hash table array of integers for open addressing
+//					idxStatusList - array the same size as hash table indicating
+//                                  that the corresponding position in the hashtable is empty
+//                                  (0, empty, 1, full, -1, removed)
+//					hashTableSize - size of hash table from user
+// OUTPUT:
+// 	Return Value: 	totalSearches - total number of searches needed to find all values
+// CALLS TO:        HashValue()
+//                  DoubleHashValue()
+//                  QuadraticProbe()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+int FindOpenValue(int testNum,int randomArray[],int *openHashTable,int *idxStatusList, int hashTableSize)
+{
+    int totalSearches = 0;                  //total number of searches needed to find values in the hash table
+    
+    
+    
+    return totalSearches;
+}
+
+//*********************************************************************
+// FUNCTION: 		FindChainValue()
+// DESCRIPTION: 	controlling function that finds values in hash table and counts
+//                  how many searches were needed to find all the values
+// INPUT:
+// 	Parameters:     randomArray - random array containing unique integers
+//                  chnHashTbl - hash table array of integers for open addressing
+//					hashTableSize - size of hash table from user
+// OUTPUT:
+// 	Return Value: 	totalSearches - total number of searches needed to find all values
+// CALLS TO:        HashValue()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+int FindChainValue(int randomArray[], struct chnArray *chnHashTable, int hashTableSize)
+{
+    int totalSearches = 0;                  //total number of searches needed to find values in the hash table
+    
+    
+    
+    return totalSearches;
+}
+
+//*********************************************************************
+// FUNCTION: 		HashSearching()
+// DESCRIPTION: 	checks to see which test is being run and calls the appropriate search function, then calculates the
+//                  average number of searches per value as well as the predicted number of searches per value
+// INPUT:
+// 	Parameters:     testNum - test number that is currently being run
+//                  randomArray - random array containing unique integers
+//                  openHashTbl - hash table array of integers for open addressing
+//                  chnHashTbl - hash table array of pointers for chained hashing
+//					hashTableSize - size of hash table from user
+//					idxStatusList - array the same size as hash table indicating
+//                                  that the corresponding position in the hashtable is empty
+//                                  (0, empty, 1, full, -1, removed)
+//                  avg - average number of searches needed to find a value
+//                  kAvg - predicted number of searches needed to find a value
+// OUTPUT:
+// 	Parameters: 	avg - average number of searches needed to find a value
+//                  kAvg - predicted number of searches needed to find a value
+// CALLS TO:        FindChainValue()
+//                  FindOpenValue()
+//                  CalculateAvg()
+//                  CalculateKnuthAvg()
+//                  CalculateLoadFactor()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+void HashSearching(int testNum, int randomArray[], int *openHashTable, struct chnArray *chnHashTable, int hashTableSize, int *idxStatusList, double &avg, double &kAvg)
+{
+    int totalSearches;                      //total number of searches to find values in a given hash table
+    
+    //checks which test is being run and calls the appropriate function
+    switch (testNum) {
+        case TEST_QUADRATIC_PROBING:
+        case TEST_DOUBLE_HASHING: totalSearches = FindOpenValue(testNum, randomArray, openHashTable, idxStatusList, hashTableSize);
+            break;
+        case TEST_SEPARATE_CHAINING: totalSearches = FindChainValue(randomArray, chnHashTable, hashTableSize);
+            break;
+        default:
+            break;
+    }
+    
+    avg = CalculateAverage(totalSearches);
+    kAvg = CalculateKnuthAverage(totalSearches, testNum, CalculateLoadFactor(hashTableSize));
+}
+
+
+//*********************************************************************
+// FUNCTION: 		QuadraticProbe
+// DESCRIPTION: 	Resolves collisions in an open addressing hash table
+//					by quadratic probe values. Used to avoid primary
+//					clustering. Used for test 1 collision resolution.
+//INPUT:
+//					openHashTbl[] - hash table array of integers for open 
+//					addressing
+//
+//					initialAddress - initial array index
+//
+//					hashTableSize - size of hash table from user
+//
+//OUTPUT:
+//  Return Val:		finalAddress - new index in which to place value
+//
+//	
+// IMPLEMENTED BY: 	Chad Peters
+//**********************************************************************
+
+int QuadraticProbe(int openHashTbl[], int initialAddress, int hashTableSize){
+	
+	int probeNum = PROBE_NUM_START;	// there has to be at least 1 collision for quadratic probing
+	int nextAddress = 0;			// temp var to hold the next potential array index 
+	int finalAddress = 0;			// final var for storing the hash value (no collision)
+	
+	do {
+		// find next address since initial address doesn't work
+		nextAddress = (probeNum * probeNum) + initialAddress;
+		
+		// if next address contains something
+		if(openHashTbl[nextAddress] != 0){
+		
+			probeNum++;
+			nextAddress = (probeNum * probeNum) + initialAddress; 	// find another address
+		
+		} else if(openHashTbl[nextAddress] == 0){
+			
+			// when nextAddress is finally empty create the final address
+			finalAddress = nextAddress % hashTableSize;
+		
+		} // end if else if
+	
+	// continue to loop unless finalAddress has a value other than 0	
+	}while(finalAddress == 0);
+	
+	return finalAddress;
+}
+
+//*********************************************************************
+// FUNCTION: 		DoubleHashValue
+// DESCRIPTION: 	Creates a double hash of given value if the previously
+//					hashed value is a duplicate in an open addressing hash
+//					table. Used for test 2 collision resolution
+//
+//INPUT:
+//					openHashTbl[] - hash table array of integers for open 
+//					addressing
+//
+//					hashValue - initial hash value
+//
+//					initialAddress - initial array index
+//
+//					hashTableSize - size of hash table from user
+//OUTPUT:
+//  Return Val:		finalAddress - double hashed value to be used for
+//					array index
+//
+//	
+// IMPLEMENTED BY: 	Chad Peters
+//**********************************************************************
+int DoubleHashValue(int openHashTbl[], int hashValue, int initialAddress, int hashTableSize){
+	
+	int rehashInitialVal = 0;
+	int rehashSecondaryVal = 0;
+	int nextAddress = 0;
+	int finalAddress = 0;
+	
+	do {
+		
+		// find next address since initial address doesn't work
+		// secondary rehash formula (key % (table size - 2)) + 1
+		rehashInitialVal = (hashValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
+		
+		// add rehashInitialVal to original hash value to find nextAddress
+		rehashSecondaryVal = hashValue + rehashInitialVal;	
+		
+		nextAddress = rehashSecondaryVal;	// assign the nextAddress to the second rehash val
+		
+		// if next address contains something
+		if(openHashTbl[nextAddress] != 0){
+
+			rehashInitialVal = (hashValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
+			rehashSecondaryVal = hashValue + rehashInitialVal;
+			nextAddress = rehashSecondaryVal;	
+		
+		} else if(openHashTbl[nextAddress] == 0){
+			
+			// when nextAddress is finally empty create the final address
+			finalAddress = nextAddress;
+		
+		} // end if else if
+	
+	// continue to loop unless finalAddress has a value other than 0	
+	}while(finalAddress == 0);	
+	
+	return finalAddress;
+
+}
