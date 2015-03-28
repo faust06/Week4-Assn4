@@ -6,31 +6,25 @@ using namespace std;
 
 int main(int argc, const char * argv[]) {
     
-	bool noMemory = false;								// handles memory allocation and allows for graceful exit of program
-	char runAgainChoice = '-';							// handles amount of testing that user wants to conduct, y to continue and n to stop
-    int hashTableSize = 0,								// size of hash table as defined by user
-		menuChoice = 0,								// handles user input for menu options
-		randomArray[RANDOM_ARRAY_UNIQUE_VALUES] = {0},				// initalize randomArray to 5000 cells
-		initialValue = 0,							// placeholder for each initial value to be hashed
-		arrayCounter = 0,							// random array counter
-		hashVal = 0,								// hashed initial value
+	bool noMemory = false;									// handles memory allocation and allows for graceful exit of program
+	char runAgainChoice = '-';								// handles amount of testing that user wants to conduct, y to continue and n to stop
+    int hashTableSize = 0,									// size of hash table as defined by user
+		menuChoice = 0,										// handles user input for menu options
+		randomArray[RANDOM_ARRAY_UNIQUE_VALUES] = {0},		// initalize randomArray to 5000 cells
     	*openHashTbl = NULL,								// initialize pointer for hash table
     	*idxStatusList = NULL;								// initialize pointer for corresponding index list for hash table
     chnArray *chnHashTbl = NULL;							// initialize pointer for chained hash table type
-    //******DEBUG***********
-    int htSameCounter;
-    ofstream dataOut;
-    string filename = "testfile.txt";
-    //******DEBUG***********
     
     // put random numbers into an array for use in every test
     InitializeRandomArray(randomArray);
     
-    for(int checkNum = 0; checkNum < RANDOM_ARRAY_UNIQUE_VALUES; checkNum++){
+    //**************************DEBUG*******************************
+    //for(int checkNum = 0; checkNum < RANDOM_ARRAY_UNIQUE_VALUES; checkNum++){
     	
-    	cout << "randomArray[" << checkNum << "]: " << randomArray[checkNum] << endl;
+    // 	cout << "randomArray[" << checkNum << "]: " << randomArray[checkNum] << endl;
     	
-	} // end for
+	//} // end for
+    //**************************DEBUG*********************************
     
     do{
     	
@@ -63,54 +57,13 @@ int main(int argc, const char * argv[]) {
 				
 				} // end try catch 
 				
-				do {
-				
-					initialValue = randomArray[arrayCounter];
-					arrayCounter++;
-					
-					hashVal = HashValue(initialValue, hashTableSize);
-				
-					if(idxStatusList[hashVal] == 0 && hashVal != initialValue){
-				
-						openHashTbl[hashVal] = initialValue;
-						idxStatusList[hashVal] = DATA_IN_CELL;
-					
-					} else {
-
-						finalAddress = QuadraticProbe(openHashTbl, hashVal, initialValue, hashTableSize);
-				
-						openHashTbl[finalAddress] = initialValue;
-						idxStatusList[finalAddress] = DATA_IN_CELL;
-					
-					}
-				
-				}while(arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES);
-
-    			//**************************DEBUG******************************
-    			htSameCounter = 0;
-    			dataOut.open(filename.c_str());
-    			for(int checkNum = 0; checkNum < hashTableSize; checkNum++){
-    	
-    			 	dataOut << "openHashTbl[" << checkNum << "]: " << openHashTbl[checkNum] << "\n";
-    			 	if(checkNum == openHashTbl[checkNum]){
-    			 		
-    			 		htSameCounter++;
-    			 		
-					 }
-    	
-				} // end for
-				dataOut.close();
-				
-				cout << "htSameCounter: " << htSameCounter << "\n";
-    			//**************************DEBUG*********************************
-    			
-    			arrayCounter = 0;
+				OpenHTInsertValues(menuChoice, openHashTbl, randomArray, idxStatusList, hashTableSize);
 				
     			break;    			
 
     		case MENU_DOUBLE:
     			
-    			// Initialize our hashtable and corresponding index list
+     			// Initialize our hashtable and corresponding index list
     			// Check for memory alloc fail
   				try {
 	
@@ -122,6 +75,8 @@ int main(int argc, const char * argv[]) {
 					noMemory = true; 
 				
 				} // end try catch 
+
+				OpenHTInsertValues(menuChoice, openHashTbl, randomArray, idxStatusList, hashTableSize);
 				
     			break;
     			
