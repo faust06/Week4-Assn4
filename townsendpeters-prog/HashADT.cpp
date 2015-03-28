@@ -92,7 +92,7 @@ void InitializeOpenTbl(int* &openHashTbl, int* &idxStatusList, int hashTableSize
 //					passed back by reference
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-void InitializeChnTbl(struct chnArray *chnHashTbl, int hashTableSize)
+void InitializeChnTbl(struct chnArray* &chnHashTbl, int hashTableSize)
 {
 	// allocate memory for array OF POINTERS
 	chnHashTbl = new (nothrow) chnArray[hashTableSize];
@@ -355,7 +355,7 @@ void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], in
     }while(arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES);
     
     //**************************DEBUG******************************
-    dataOut.open("/Users/nrtownsend/Desktop/hashDebug.txt");
+    dataOut.open("/Users/nrtownsend/Desktop/openHashDebug.txt");
     for(int checkNum = 0; checkNum < hashTableSize; checkNum++){
         
         dataOut << "openHashTbl[" << checkNum << "]: " << openHashTbl[checkNum] << "\n";
@@ -371,9 +371,7 @@ void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], in
 // INPUT:
 //					chnHashTbl[] - hash table array of nodes
 //					randomArray[] - random array of integers
-//					hashTableSize - size of hash table from user
-// CALLS TO:		HashValue()
-//                  ChainProbe()
+//					randomValue - value that is being placed into hashtable
 // IMPLEMENTED BY: 	Neil Townsend
 //**********************************************************************
 void ChainProbe(struct chnArray *chnHashTable, int newHashValue, int randomValue)
@@ -431,6 +429,32 @@ void ChainHTInsertValues(struct chnArray *chnHashTable, int randomArray[], int h
         //inserts hash value into chain table at appropriate node
         ChainProbe(chnHashTable, newHashValue, randomArray[insertCounter]);
     }
+    
+    //**************************DEBUG******************************
+    ofstream dataOut;
+    hashNode *current;
+    dataOut.open("/Users/nrtownsend/Desktop/chnHashDebug.txt");
+    for(int checkNum = 0; checkNum < hashTableSize; checkNum++){
+        
+        dataOut << "chnHashTbl[" << checkNum << "]: ";
+        
+        current = chnHashTable[checkNum].link;
+        
+        if (current == NULL) {
+            dataOut << " 0 " << endl;
+        }
+        else {
+            while (current != NULL) {
+                dataOut << current->value << " and ";
+                current = current->next;
+            }
+            dataOut << endl;
+        }
+        
+        
+    } // end for
+    dataOut.close();
+    //**************************DEBUG*********************************
 }
 
 

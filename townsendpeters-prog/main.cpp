@@ -59,7 +59,7 @@ int main(int argc, const char * argv[]) {
                         cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
                         noMemory = true;
                     } // end try catch
-                
+            
                     //inserts values into separate chaining hash table
                     ChainHTInsertValues(chnHashTbl, randomArray, hashTableSize);
                 break;
