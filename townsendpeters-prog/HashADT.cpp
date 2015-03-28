@@ -232,20 +232,13 @@ int FindChainValue(int randomArray[], struct chnArray *chnHashTable, int hashTab
 //					by quadratic probe values. Used to avoid primary
 //					clustering. Used for test 1 collision resolution.
 //INPUT:
-//					openHashTbl[] - hash table array of integers for open 
-//					addressing
-//
+//					openHashTbl[] - hash table array of integers for open addressing
 //					hashVal - hashed value from the initial value from random array
-//
 //					hashTableSize - size of hash table from user
-//
 //OUTPUT:
 //  Return Val:		finalAddress - new index in which to place value
-//
-//	
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-
 int QuadraticProbe(int openHashTbl[], int hashVal, int hashTableSize){
 	
 	int probeNum = PROBE_NUM_START;		// starts probe at 1 because there is already a collision
@@ -256,24 +249,19 @@ int QuadraticProbe(int openHashTbl[], int hashVal, int hashTableSize){
 	tempAddress = hashVal;
 	
 	do {
-		
 		//change idx
 		nextAddress = (probeNum * probeNum) + tempAddress;
 					
 		// if idx is full or the new address is the same as the initialValue
 		if(openHashTbl[nextAddress] != 0){
-			
 			tempAddress = nextAddress;
 			probeNum++;
-			
-		}else if(openHashTbl[nextAddress] == 0){
-			
+        }
+        else if(openHashTbl[nextAddress] == 0){
 			finalAddress = nextAddress % hashTableSize;
-			
 		}
-		
 	}while(finalAddress == 0);
-	
+    
 	return finalAddress;
 }
 
@@ -284,20 +272,13 @@ int QuadraticProbe(int openHashTbl[], int hashVal, int hashTableSize){
 //					table. Used for test 2 collision resolution
 //
 //INPUT:
-//					openHashTbl[] - hash table array of integers for open 
-//					addressing
-//
+//					openHashTbl[] - hash table array of integers for open addressing
 //					hashValue - initial hashed value
-//
 //					initialValue - integer value from random array
-//
 //					hashTableSize - size of hash table from user
-//
 //OUTPUT:
 //  Return Val:		finalAddress - double hashed value to be used for
 //					array index
-//
-//	
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hashTableSize){
@@ -311,25 +292,19 @@ int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hash
 	rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
 	nextAddress = (hashValue + rehashInitialVal) % hashTableSize;	// assign the nextAddress		
 				
-	do {		
-
+	do {
 		if(openHashTbl[nextAddress] != 0){
-			
-			// keep checking the nth pos for an empty spot
+            // keep checking the nth pos for an empty spot
 			nextAddress += rehashInitialVal; 
 			
 			// return to beginning at different pos to continue searching for empty spot
 			if(nextAddress > hashTableSize){
-				
-				nextAddress -= hashTableSize;
-				
+                nextAddress -= hashTableSize;
 			} // end if
 		
 		} else if(openHashTbl[nextAddress] == 0){
-		
 			// when nextAddress is finally empty create the final address
 			finalAddress = nextAddress;
-		
 		}// end if else
 	
 	// continue to loop unless finalAddress has a value other than 0	
@@ -348,33 +323,26 @@ int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hash
 //
 //INPUT:
 //					menuChoice - type of collision method defined by user
-//
 //					openHashTbl[] - hash table array of integers for open 
 //					addressing passed by reference
-//
 //					randomArray[] - random array of integers
-//
-//					idxStatusList[] - array list correlating with filled
-//					data in hash table passed by reference
-//
+//					idxStatusList[] -   array list correlating with filled
+//                                      data in hash table passed by reference
 //					hashTableSize - size of hash table from user
 //
 //OUTPUT:
 //  Return Val:		openHashTbl[] - full hash table with random integers
-//					from randomArray passed by reference
-//
-//					idxStatusList[] - array list correlating with
-//					filled data in hash table passed by reference
-//
+//                                  from randomArray passed by reference
+//					idxStatusList[] -   array list correlating with
+//                                      filled data in hash table passed by reference
 //CALLS TO:			HashValue()
-//				QuadraticProbe()
-//				DoubleHashValue()
+//                  QuadraticProbe()
+//                  DoubleHashValue()
 //	
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 
 void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], int* &idxStatusList, int hashTableSize){
-
 	int initialValue = 0,				// placeholder for each initial value to be hashed
 		arrayCounter = 0,				// random array counter
 		hashVal = 0,					// hashed initial value
@@ -386,9 +354,7 @@ void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], i
     //******DEBUG***********
     
 	if(menuChoice == MENU_QUADRATIC){
-	
 		do {
-				
 			initialValue = randomArray[arrayCounter];
 			arrayCounter++;
 				
@@ -423,7 +389,6 @@ void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], i
     	arrayCounter = 0;
 		
 	} else if(menuChoice == MENU_DOUBLE){
-		
 		do {
 				
 			initialValue = randomArray[arrayCounter];

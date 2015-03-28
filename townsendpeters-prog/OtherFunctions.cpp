@@ -86,10 +86,8 @@ int RandomNum(){
 // DESCRIPTION: 	Gets menu choice from user and error checks it
 //INPUT:
 //					menuChoice - number entered by user
-//
 //OUTPUT:
 //  Return Val:		menuChoice - error checked number
-//
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 
@@ -98,26 +96,21 @@ int GetMenuChoice(){
 	int menuChoice = 0;
 
 do{
-
 		cout << endl << "COLLISION RESOLUTION ANALYSIS PROGRAM\n" << endl
 			 	  << "1 - Quadratic Probing Hashing\n"
 			 	  << "2 - Double Hashing\n"
 			 	  << "3 - Chained Hashing\n" << endl
 			 	  << "Enter Menu Option (1/2/3): ";
-		 	  
 		cin >> menuChoice;
 
 		// if not a number
 		if(cin.fail()){
-			
 			cout << endl << "invalid character -- ignoring line" << endl;
 			cin.clear();	// clear cin stream
 			cin.ignore(numeric_limits<int>::max(), '\n');	// numbers only
-						
-		} else if (menuChoice > MENU_CHAINED && menuChoice < MENU_QUADRATIC){
-		
+		}
+        else if (menuChoice > MENU_CHAINED && menuChoice < MENU_QUADRATIC){
 			cout << endl << "Must choose option 1, 2, or 3." << endl;
-		
 		}// end if else if		
 	
 	}while(menuChoice != MENU_QUADRATIC && menuChoice != MENU_DOUBLE && menuChoice != MENU_CHAINED);
@@ -125,7 +118,6 @@ do{
 	cout << endl;
 	
 	return menuChoice;
-	
 }
 
 //*********************************************************************
@@ -134,40 +126,31 @@ do{
 //					user input
 //INPUT:
 //					userNum - number entered by user
-//
 //OUTPUT:
 //  Return Val:		userNum - error checked number
-//
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-
 int GetTableSize(){
-	
 	int userNum = 0;
 	
-    	// error check user input for >= 6700 hash table size 
+    // error check user input for >= 6700 hash table size
 	do{
-	
 		cout << "Please enter a hash table size (min val of 6700): ";
 		cin >> userNum;
 	
 		// if not a number
 		if(cin.fail()){
-			
 			cout << endl << "invalid character -- ignoring line" << endl;
 			cin.clear();	// clear cin stream
 			cin.ignore(numeric_limits<int>::max(), '\n');	// numbers only
-						
-		} else if (userNum < HASH_TABLE_MINIMUM_SIZE){
-		
+		}
+        else if (userNum < HASH_TABLE_MINIMUM_SIZE){
 			cout << endl << "Table size must be >= 6700." << endl;
-		
 		}// end if else if	
 	
 	}while(!(userNum >= HASH_TABLE_MINIMUM_SIZE)); // end while
 	
 	return userNum;
-	
 }
 
 //*********************************************************************
@@ -176,24 +159,18 @@ int GetTableSize(){
 //					checks user input
 //INPUT:
 //					userChar - char entered by user
-//
-//OUTPUT:
+////OUTPUT:
 //  Return Val:		userChar - error checked char
-//
-// IMPLEMENTED BY: 	Chad Peters
+//// IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-
 char KeepTesting(){
-	
 	char userChar = '-';
 	
 	//USED AT END TO CONTINUE OR QUIT
    	// error check user input for Y or N
 	do{
-	
 		cout << endl << "Do you want to conduct another hashing test?(Y/N): ";
 		cin >> userChar;
-		
 		userChar = toupper(userChar);
 		
 		//debug
@@ -202,17 +179,14 @@ char KeepTesting(){
 	
 		// if not a number
 		if(userChar != EXIT_PROGRAM && userChar != CONT_PROGRAM){
-			
 			cout << endl << "invalid character -- ignoring line" << endl;
 			cin.clear();	// clear cin stream
 			cin.ignore(numeric_limits<char>::max(), '\n');	// char only
-						
 		} // end if
 	
 	}while(userChar != CONT_PROGRAM && userChar != EXIT_PROGRAM); // end do while
 	
 	return userChar;
-	
 }
 
 //**********************************************************************
@@ -222,31 +196,23 @@ char KeepTesting(){
 //INPUT:
 //					randomArray[] - array containing random integers
 //					between the values of 1 - 30,000
-//
-//					searchValue - new value to search through array for	
-//
+//					searchValue - new value to search through array for
 //OUTPUT:
 //  Return Val:		dupFound - boolean for whether there is a duplicate
 //					value
-//
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 bool DuplicateValue(int randomArray[], int arrayCounter, int searchValue){
-	
 	int i = 0;
 	bool dupFound = false;
 	
 	while(i < arrayCounter && !dupFound){
-		
 		// change dupFound to true if duplicate num is found
 		if(searchValue == randomArray[i]){
-			
 			dupFound = true;
-			
 		} // end if
-		
+        
 		i++;	// increment loop counter
-		
 	} // end while
 	
 	return dupFound;
@@ -256,29 +222,23 @@ bool DuplicateValue(int randomArray[], int arrayCounter, int searchValue){
 //*********************************************************************
 // FUNCTION: 		InitializeRandomArray
 // DESCRIPTION: 	Initializes random array with 5000 random values
-//
 //INPUT:
 //					randomArray[] - empty array
-//
 //OUTPUT:
 //  Return Val:		randomArray[] - array of random integers between the 
-//					range of 1 - 30,000 -- no duplicates
-//
+//                                  range of 1 - 30,000 -- no duplicates
 //CALLS TO:			RandomNum()
 //					DuplicateValue()
-//	
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 void InitializeRandomArray(int randomArray[]){
-    
 	int rNum = 0;
 	bool dupFound = false;
 	
 	//seeds random number generator with system clock
 	srandom(time(NULL));
-	
+    
 	for(int arrayCounter = 0; arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES; arrayCounter++){
-		
 		// get random num
 		rNum = RandomNum();
 
@@ -296,6 +256,5 @@ void InitializeRandomArray(int randomArray[]){
 			arrayCounter--;
 		}// end if else
         
-	} // end for
-	
+	} // end for	
 }
