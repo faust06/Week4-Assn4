@@ -64,7 +64,6 @@ double CalculateLoadFactor(int hashTableSize)
 //                                  passed back by reference
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-=======
 //
 //					idxStatusList - array the same size as hash table indicating
 //					that the corresponding position in the hasht able is empty
@@ -122,70 +121,15 @@ void InitializeOpenTbl(int* &openHashTbl, int* &idxStatusList, int hashTableSize
 //
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-
->>>>>>> origin/Chad's-Branch
 void InitializeChnTbl(struct chnArray *chnHashTbl, int hashTableSize)
 {
-
 	// allocate memory for array OF POINTERS
 	chnHashTbl = new (nothrow) chnArray[hashTableSize];
 
 	// initialize all cells in openHashTable and idxStatusList to 0	
 	for(int i = 0; i < hashTableSize; i++){
-	
 		chnHashTbl[i].link = NULL;
-		
 	} // end for
-}
-
-//*********************************************************************
-// FUNCTION: 		FindOpenValue()
-// DESCRIPTION: 	controlling function that finds values in hash table and counts
-//                  how many searches were needed to find all the values
-// INPUT:
-// 	Parameters:     testNum - test number that is currently being run
-//                  randomArray - random array containing unique integers
-//                  openHashTbl - hash table array of integers for open addressing
-//					idxStatusList - array the same size as hash table indicating
-//                                  that the corresponding position in the hashtable is empty
-//                                  (0, empty, 1, full, -1, removed)
-//					hashTableSize - size of hash table from user
-// OUTPUT:
-// 	Return Value: 	totalSearches - total number of searches needed to find all values
-// CALLS TO:        HashValue()
-//                  DoubleHashValue()
-//                  QuadraticProbe()
-// IMPLEMENTED BY: 	Neil Townsend
-//**********************************************************************
-int FindOpenValue(int testNum,int randomArray[],int *openHashTable,int *idxStatusList, int hashTableSize)
-{
-    int totalSearches = 0;                  //total number of searches needed to find values in the hash table
-    
-    
-    
-    return totalSearches;
-}
-
-//*********************************************************************
-// FUNCTION: 		FindChainValue()
-// DESCRIPTION: 	controlling function that finds values in hash table and counts
-//                  how many searches were needed to find all the values
-// INPUT:
-// 	Parameters:     randomArray - random array containing unique integers
-//                  chnHashTbl - hash table array of integers for open addressing
-//					hashTableSize - size of hash table from user
-// OUTPUT:
-// 	Return Value: 	totalSearches - total number of searches needed to find all values
-// CALLS TO:        HashValue()
-// IMPLEMENTED BY: 	Neil Townsend
-//**********************************************************************
-int FindChainValue(int randomArray[], struct chnArray *chnHashTable, int hashTableSize)
-{
-    int totalSearches = 0;                  //total number of searches needed to find values in the hash table
-    
-    
-    
-    return totalSearches;
 }
 
 //*********************************************************************
@@ -282,12 +226,7 @@ int FindChainValue(int randomArray[], struct chnArray *chnHashTable, int hashTab
     return totalSearches;
 }
 
-
-
-
-
-
-=======
+//**********************************************************************
 // FUNCTION: 		QuadraticProbe
 // DESCRIPTION: 	Resolves collisions in an open addressing hash table
 //					by quadratic probe values. Used to avoid primary
