@@ -48,6 +48,8 @@ int main(int argc, const char * argv[]) {
                 
                     //inserts values into open address hash table
                     OpenHTInsertValues(menuChoice, openHashTbl, randomArray, idxStatusList, hashTableSize);
+                
+                    cout << "It took " << FindOpenValue(menuChoice, randomArray, openHashTbl, idxStatusList, hashTableSize) << " searches" << endl;
                 break;
                 
             case MENU_CHAINED:

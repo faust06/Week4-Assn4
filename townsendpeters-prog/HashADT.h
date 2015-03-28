@@ -13,6 +13,7 @@ void InitializeChnTbl(struct chnArray* & , int );
 void HashSearching(int, int [], int * , struct chnArray * , int , int *, double & , double & );
 int FindOpenValue(int ,int [],int * ,int * , int );
 int SearchQuadValue(int *, int , int );
+int SearchDoubleHashValue(int *, int , int );
 int FindChainValue(int [], struct chnArray *, int );
 int QuadraticProbe(int [] , int, int );
 int DoubleHashValue(int [], int, int , int );
