@@ -57,6 +57,30 @@ double CalculateKnuthAverage(int totalSearches, int testNum, double loadFactor)
     
     return kAvg;
 }
+
+//*********************************************************************
+// FUNCTION: 		RandomNum
+// DESCRIPTION: 	Returns random integer between 1 - 30,000
+//
+//OUTPUT:
+//  Return Val:		rNum - random integer between 1 - 30,000
+//
+// IMPLEMENTED BY: 	Chad Peters
+//**********************************************************************
+
+int RandomNum(){
+	
+	int rNum = 0;
+	
+	// (rand() % 30,000 - 1 + 1) + 1
+	rNum = (rand() % (RANDOM_ARRAY_VALUE_MAX - RANDOM_ARRAY_VALUE_MIN + RANDOM_ARRAY_VALUE_MIN))
+	        + RANDOM_ARRAY_VALUE_MIN;
+	
+	return rNum;
+	
+}
+
+
 //*********************************************************************
 // FUNCTION: 		GetMenuChoice
 // DESCRIPTION: 	Gets menu choice from user and error checks it
@@ -268,22 +292,93 @@ void InitializeRandomArray(int randomArray[])
     }
 }
 
+//**********************************************************************
+// FUNCTION: 		DuplicateValue
+// DESCRIPTION: 	Searches through random array to make sure that
+//					new random value does not already exist in array.
+//INPUT:
+//					randomArray[] - array containing random integers
+//					between the values of 1 - 30,000
+//
+//					searchValue - new value to search through array for	
+//
+//OUTPUT:
+//  Return Val:		dupFound - boolean for whether there is a duplicate
+//					value
+//
+// IMPLEMENTED BY: 	Chad Peters
+//**********************************************************************
 
+bool DuplicateValue(int randomArray[], int arrayCounter, int searchValue){
+	
+	int i = 0;
+	bool dupFound = false;
+	
+	while(i < arrayCounter && !dupFound){
+		
+		// change dupFound to true if duplicate num is found
+		if(searchValue == randomArray[i]){
+			
+			dupFound = true;
+			
+		} // end if
+		
+		i++;	// increment loop counter
+		
+	} // end while
+	
+	return dupFound;
+	
+}
 
+//*********************************************************************
+// FUNCTION: 		InitializeRandomArray
+// DESCRIPTION: 	Initializes random array with 5000 random values
+//
+//INPUT:
+//					randomArray[] - empty array
+//
+//OUTPUT:
+//  Return Val:		randomArray[] - array of random integers between the 
+//					range of 1 - 30,000 -- no duplicates
+//
+//CALLS TO:			RandomNum()
+//					DuplicateValue()
+//	
+// IMPLEMENTED BY: 	Chad Peters
+//**********************************************************************
+void InitializeRandomArray(int randomArray[]){
+	
+	int rNum = 0;
+	bool dupFound = false;
+	
+	//seeds random number generator with system clock
+	srand(time(NULL));
+	
+	for(int arrayCounter = 0; arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES; arrayCounter++){
+		
+		// get random num
+		rNum = RandomNum();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		// first time no dupes, so add to array
+		if( arrayCounter == 0){
+		
+			randomArray[arrayCounter] = rNum;
+			
+		} // end if
+		
+		if(!DuplicateValue(randomArray, arrayCounter, rNum)){
+			
+			// if no dupes add random int to array
+			randomArray[arrayCounter] = rNum;
+				
+		} else {
+			
+			// if dupe is found subtract from arrayCounter to ensure array will be filled
+			arrayCounter--;
+			
+		}// end if else
+			
+	} // end for
+	
+}
