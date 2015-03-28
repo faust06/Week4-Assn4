@@ -14,8 +14,11 @@ char KeepTesting();
 int RandomNum();
 bool DuplicateValue(int [], int , int );
 void InitializeRandomArray(int []);
-
-
-
+int RandomNum();
+int GetMenuChoice();
+int GetTableSize();
+char KeepTesting();
+bool DuplicateValue(int [] , int , int );
+void InitializeRandomArray(int []);
 
 #endif /* defined(__townsendpeters_prog__OtherFunctions__) */

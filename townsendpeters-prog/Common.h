@@ -11,6 +11,8 @@
 #include <string>
 #include <cmath>
 #include <ctime>
+#include <cstdlib>
+#include <limits>
 #include "HashADT.h"
 #include "OtherFunctions.h"
 
@@ -25,8 +27,13 @@ const int   HASH_TABLE_MINIMUM_SIZE = 6700,                     //smallest hasht
             TEST_SEPARATE_CHAINING = 3,                         //test number for separate chaining hashtable
             MENU_QUADRATIC = 1,                                 //menu option for quadratic hashing
             MENU_DOUBLE = 2,                                    //menu option for double hashing
-            MENU_CHAINED = 3;                                   //menu option for chained hashing
-
+            MENU_CHAINED = 3,                                   //menu option for chained hashing
+            MENU_CHAINED = 3,                                   //menu option for chained hashing
+            PROBE_NUM_START = 1,                                //used for collision checking; starts probe number at 1
+            SECONDARY_HASH_SUB_VAL = 2,                         //used in secondary hash formula to subtract with
+            SECONDARY_HASH_ADD_VAL = 1,                         //used in secondary hash formula to add with
+            DATA_IN_CELL = 1;                                   //used for open addressing hash table index list
+            
 const char 	EXIT_PROGRAM = 'N',                                 //user can enter N to exit program after each test
             CONT_PROGRAM = 'Y';                                 //user can enter Y to continue program after each test
 
