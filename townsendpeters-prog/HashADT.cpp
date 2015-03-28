@@ -336,83 +336,44 @@ void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], in
     string filename = "testfile.txt";
     //******DEBUG***********
     
-	if(menuChoice == MENU_QUADRATIC){
-		do {
-            //picks the next value from randomArray
-			initialValue = randomArray[arrayCounter];
-			arrayCounter++;
-            
-			//creates hash value of random value
-			hashVal = HashValue(initialValue, hashTableSize);
-		
-            //checks to see if value can be placed directly into hashtable
-			if(idxStatusList[hashVal] == 0){
-				
-				openHashTbl[hashVal] = initialValue;
-				idxStatusList[hashVal] = DATA_IN_CELL;
-			}
-            //if value cannot be placed directly, resolves collision with user's choice of open addressing resolution
-            else {
-                switch (menuChoice) {
-                    case MENU_QUADRATIC: finalAddress = QuadraticProbe(openHashTbl, hashVal,  hashTableSize);
-                        break;
-                    case MENU_DOUBLE: finalAddress = DoubleHashValue(openHashTbl, hashVal, initialValue,  hashTableSize);
-                    default:
-                        break;
-                }
-				
-				openHashTbl[finalAddress] = initialValue;
-				idxStatusList[finalAddress] = DATA_IN_CELL;
-			} // end if else
-			
-        //continues until all random values has been placed
-		}while(arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES);
-	
-    	//**************************DEBUG******************************
-    	dataOut.open("/Users/nrtownsend/Desktop/hashDebug.txt");
-    	for(int checkNum = 0; checkNum < hashTableSize; checkNum++){
-    	
-    	 	dataOut << "openHashTbl[" << checkNum << "]: " << openHashTbl[checkNum] << "\n";
-
-		} // end for
-		dataOut.close();
-    	//**************************DEBUG*********************************
+    do {
+        //picks the next value from randomArray
+        initialValue = randomArray[arrayCounter];
+        arrayCounter++;
         
-	/*} else if(menuChoice == MENU_DOUBLE){
-		do {
-            //picks the next value from randomArray
-			initialValue = randomArray[arrayCounter];
-			arrayCounter++;
+        //creates hash value of random value
+        hashVal = HashValue(initialValue, hashTableSize);
+        
+        //checks to see if value can be placed directly into hashtable
+        if(idxStatusList[hashVal] == 0){
             
-            //creates hash value of random value
-			hashVal = HashValue(initialValue, hashTableSize);
+            openHashTbl[hashVal] = initialValue;
+            idxStatusList[hashVal] = DATA_IN_CELL;
+        }
+        //if value cannot be placed directly, resolves collision with user's choice of open addressing resolution
+        else {
+            switch (menuChoice) {
+                case MENU_QUADRATIC: finalAddress = QuadraticProbe(openHashTbl, hashVal,  hashTableSize);
+                    break;
+                case MENU_DOUBLE: finalAddress = DoubleHashValue(openHashTbl, hashVal, initialValue,  hashTableSize);
+                default:
+                    break;
+            }
             
-            //checks to see if value can be placed directly into hashtable
-			if(idxStatusList[hashVal] == 0){
-				
-				openHashTbl[hashVal] = initialValue;
-				idxStatusList[hashVal] = DATA_IN_CELL;
-			}
-            
-            //if value cannot be placed directly, resolves collision with quadratic probing
-            else {
-				finalAddress = DoubleHashValue(openHashTbl, hashVal, initialValue,  hashTableSize);
-				
-				openHashTbl[finalAddress] = initialValue;
-				idxStatusList[finalAddress] = DATA_IN_CELL;
-			} // end if else
-            
-		}while(arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES);
-
-		//**************************DEBUG******************************
-		dataOut.open(filename.c_str());
-		for(int checkNum = 0; checkNum < hashTableSize; checkNum++){
-    	
-    	 	dataOut << "openHashTbl[" << checkNum << "]: " << openHashTbl[checkNum] << "\n";
-
-		} // end for
-		dataOut.close();
-  		//**************************DEBUG*********************************
-       */
-	} // end if else if
+            openHashTbl[finalAddress] = initialValue;
+            idxStatusList[finalAddress] = DATA_IN_CELL;
+        } // end if else
+        
+        //continues until all random values has been placed
+    }while(arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES);
+    
+    //**************************DEBUG******************************
+    dataOut.open("/Users/nrtownsend/Desktop/hashDebug.txt");
+    for(int checkNum = 0; checkNum < hashTableSize; checkNum++){
+        
+        dataOut << "openHashTbl[" << checkNum << "]: " << openHashTbl[checkNum] << "\n";
+        
+    } // end for
+    dataOut.close();
+    //**************************DEBUG*********************************
 }
