@@ -112,7 +112,7 @@ do{
         else if (menuChoice > MENU_CHAINED && menuChoice < MENU_QUADRATIC){
 			cout << endl << "Must choose option 1, 2, or 3." << endl;
 		}// end if else if		
-	
+
 	}while(menuChoice != MENU_QUADRATIC && menuChoice != MENU_DOUBLE && menuChoice != MENU_CHAINED);
 	
 	cout << endl;

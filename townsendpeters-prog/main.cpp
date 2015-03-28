@@ -14,13 +14,13 @@ int main(int argc, const char * argv[]) {
         randomArray[RANDOM_ARRAY_UNIQUE_VALUES] = {0};      //array that will contain random values
     chnArray *chnHashTbl = NULL;                            // initialize pointer for chained hash table type
     
-    InitializeRandomArray(randomArray);
+    /*InitializeRandomArray(randomArray);
     
     for(int checkNum = 0; checkNum < RANDOM_ARRAY_UNIQUE_VALUES; checkNum++) {
         cout << randomArray[checkNum] << endl;
-    }
+    }*/
     
-    /*(do{
+    do{
     	// display menu for user and get menu choice
     	menuChoice = GetMenuChoice();
         
@@ -29,7 +29,7 @@ int main(int argc, const char * argv[]) {
         
         //***************DEBUG******************
         cout << endl << "hashTableSize: " << hashTableSize << endl;
-        cout << endl << "Load Factor: " << CalculateLoadFactor(20000) << endl;
+        cout << endl << "Load Factor: " << CalculateLoadFactor(hashTableSize) << endl;
         //**************************************
         
         switch (menuChoice) {
@@ -61,8 +61,10 @@ int main(int argc, const char * argv[]) {
             default:
                 break;
         }
+        
+        runAgainChoice = KeepTesting();
    
-	}while(!noMemory && runAgainChoice != EXIT_PROGRAM);*/
+	}while(!noMemory && runAgainChoice != EXIT_PROGRAM);
 
     return 0;
 }

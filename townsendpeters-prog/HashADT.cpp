@@ -64,23 +64,6 @@ double CalculateLoadFactor(int hashTableSize)
 //                                  passed back by reference
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-//
-//					idxStatusList - array the same size as hash table indicating
-//					that the corresponding position in the hasht able is empty
-//					(0, empty, 1, full, -1, removed)
-//
-//					hashTableSize - size of hash table from user
-//
-// OUTPUT:
-// 	Return Val: 	openHashTbl - initialized array of ints for hash table
-//					passed back by reference
-//
-//					idxStatusList - initialized array of corresponding ints
-//					as indicators for hash table (0, empty, 1, full, -1, removed)
-//					passed back by reference
-//
-// IMPLEMENTED BY: 	Chad Peters
-//**********************************************************************
 void InitializeOpenTbl(int* &openHashTbl, int* &idxStatusList, int hashTableSize)
 {
 
@@ -355,25 +338,28 @@ void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], i
     
 	if(menuChoice == MENU_QUADRATIC){
 		do {
+            //picks the next value from randomArray
 			initialValue = randomArray[arrayCounter];
 			arrayCounter++;
-				
+            
+			//creates hash value of random value
 			hashVal = HashValue(initialValue, hashTableSize);
 		
+            //checks to see if value can be placed directly into hashtable
 			if(idxStatusList[hashVal] == 0){
 				
 				openHashTbl[hashVal] = initialValue;
 				idxStatusList[hashVal] = DATA_IN_CELL;
-					
-			} else {
-
+			}
+            //if value cannot be placed directly, resolves collision with quadratic probing
+            else {
 				finalAddress = QuadraticProbe(openHashTbl, hashVal,  hashTableSize);
 				
 				openHashTbl[finalAddress] = initialValue;
 				idxStatusList[finalAddress] = DATA_IN_CELL;
-					
 			} // end if else
-				
+			
+        //continues until all random values has been placed
 		}while(arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES);
 	
     	//**************************DEBUG******************************
@@ -385,31 +371,31 @@ void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], i
 		} // end for
 		dataOut.close();
     	//**************************DEBUG*********************************
-    			
-    	arrayCounter = 0;
-		
+        
 	} else if(menuChoice == MENU_DOUBLE){
 		do {
-				
+            //picks the next value from randomArray
 			initialValue = randomArray[arrayCounter];
 			arrayCounter++;
-				
+            
+            //creates hash value of random value
 			hashVal = HashValue(initialValue, hashTableSize);
-			
+            
+            //checks to see if value can be placed directly into hashtable
 			if(idxStatusList[hashVal] == 0){
 				
 				openHashTbl[hashVal] = initialValue;
 				idxStatusList[hashVal] = DATA_IN_CELL;
-				
-			} else {
-
+			}
+            
+            //if value cannot be placed directly, resolves collision with quadratic probing
+            else {
 				finalAddress = DoubleHashValue(openHashTbl, hashVal, initialValue,  hashTableSize);
 				
 				openHashTbl[finalAddress] = initialValue;
 				idxStatusList[finalAddress] = DATA_IN_CELL;
-					
 			} // end if else
-				
+            
 		}while(arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES);
 
 		//**************************DEBUG******************************
@@ -421,9 +407,6 @@ void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], i
 		} // end for
 		dataOut.close();
   		//**************************DEBUG*********************************
-    			
-  		arrayCounter = 0;		
-		
+        
 	} // end if else if
-	
 }
