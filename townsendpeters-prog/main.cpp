@@ -14,12 +14,14 @@ int main(int argc, const char * argv[]) {
         randomArray[RANDOM_ARRAY_UNIQUE_VALUES] = {0};      //array that will contain random values
     chnArray *chnHashTbl = NULL;                            // initialize pointer for chained hash table type
     
-    /*InitializeRandomArray(randomArray);
+    //initializes randomArray with unique values
+    InitializeRandomArray(randomArray);
     
-    for(int checkNum = 0; checkNum < RANDOM_ARRAY_UNIQUE_VALUES; checkNum++) {
+    /*for(int checkNum = 0; checkNum < RANDOM_ARRAY_UNIQUE_VALUES; checkNum++) {
         cout << randomArray[checkNum] << endl;
     }*/
     
+    //asks user which type of test they would like to run
     do{
     	// display menu for user and get menu choice
     	menuChoice = GetMenuChoice();
@@ -44,6 +46,8 @@ int main(int argc, const char * argv[]) {
                     cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
                     noMemory = true;
                 } // end try catch
+                
+                OpenHTInsertValues(menuChoice, openHashTbl, randomArray, idxStatusList, hashTableSize);
                 break;
                 
             case MENU_CHAINED:

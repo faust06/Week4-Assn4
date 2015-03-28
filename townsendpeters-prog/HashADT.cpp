@@ -325,7 +325,7 @@ int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hash
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 
-void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], int* &idxStatusList, int hashTableSize){
+void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], int* &idxStatusList, int hashTableSize){
 	int initialValue = 0,				// placeholder for each initial value to be hashed
 		arrayCounter = 0,				// random array counter
 		hashVal = 0,					// hashed initial value
@@ -351,9 +351,15 @@ void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], i
 				openHashTbl[hashVal] = initialValue;
 				idxStatusList[hashVal] = DATA_IN_CELL;
 			}
-            //if value cannot be placed directly, resolves collision with quadratic probing
+            //if value cannot be placed directly, resolves collision with user's choice of open addressing resolution
             else {
-				finalAddress = QuadraticProbe(openHashTbl, hashVal,  hashTableSize);
+                switch (menuChoice) {
+                    case MENU_QUADRATIC: finalAddress = QuadraticProbe(openHashTbl, hashVal,  hashTableSize);
+                        break;
+                    case MENU_DOUBLE: finalAddress = DoubleHashValue(openHashTbl, hashVal, initialValue,  hashTableSize);
+                    default:
+                        break;
+                }
 				
 				openHashTbl[finalAddress] = initialValue;
 				idxStatusList[finalAddress] = DATA_IN_CELL;
@@ -363,7 +369,7 @@ void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], i
 		}while(arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES);
 	
     	//**************************DEBUG******************************
-    	dataOut.open(filename.c_str());
+    	dataOut.open("/Users/nrtownsend/Desktop/hashDebug.txt");
     	for(int checkNum = 0; checkNum < hashTableSize; checkNum++){
     	
     	 	dataOut << "openHashTbl[" << checkNum << "]: " << openHashTbl[checkNum] << "\n";
@@ -372,7 +378,7 @@ void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], i
 		dataOut.close();
     	//**************************DEBUG*********************************
         
-	} else if(menuChoice == MENU_DOUBLE){
+	/*} else if(menuChoice == MENU_DOUBLE){
 		do {
             //picks the next value from randomArray
 			initialValue = randomArray[arrayCounter];
@@ -407,6 +413,6 @@ void OpenHTInsertValues(char menuChoice, int* &openHashTbl, int randomArray[], i
 		} // end for
 		dataOut.close();
   		//**************************DEBUG*********************************
-        
+       */
 	} // end if else if
 }
