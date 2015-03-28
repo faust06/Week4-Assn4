@@ -43,7 +43,7 @@ struct hashNode {
 };
 
 struct chnArray {
-    chnArray *link;
+    hashNode *link;
 };
 
 

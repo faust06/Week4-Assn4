@@ -37,29 +37,31 @@ int main(int argc, const char * argv[]) {
         switch (menuChoice) {
             case MENU_QUADRATIC:
             case MENU_DOUBLE:
-
-                // Initialize our hashtable and corresponding index list
-                // Check for memory alloc fail
-                try {
-                    InitializeOpenTbl(openHashTbl, idxStatusList, hashTableSize);
-                } catch (bad_alloc& ex){
-                    cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
-                    noMemory = true;
-                } // end try catch
+                    // Initialize our hashtable and corresponding index list
+                    // Check for memory alloc fail
+                    try {
+                        InitializeOpenTbl(openHashTbl, idxStatusList, hashTableSize);
+                    } catch (bad_alloc& ex){
+                        cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+                        noMemory = true;
+                    } // end try catch
                 
-                OpenHTInsertValues(menuChoice, openHashTbl, randomArray, idxStatusList, hashTableSize);
+                    //inserts values into open address hash table
+                    OpenHTInsertValues(menuChoice, openHashTbl, randomArray, idxStatusList, hashTableSize);
                 break;
                 
             case MENU_CHAINED:
+                    // Initialize our hashtable and corresponding index list
+                    // Check for memory alloc fail
+                    try {
+                        InitializeChnTbl(chnHashTbl, hashTableSize);
+                    } catch (bad_alloc& ex){
+                        cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+                        noMemory = true;
+                    } // end try catch
                 
-                // Initialize our hashtable and corresponding index list
-                // Check for memory alloc fail
-                try {
-                    InitializeChnTbl(chnHashTbl, hashTableSize);
-                } catch (bad_alloc& ex){
-                    cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
-                    noMemory = true;
-                } // end try catch
+                    //inserts values into separate chaining hash table
+                    ChainHTInsertValues(chnHashTbl, randomArray, hashTableSize);
                 break;
                 
             default:

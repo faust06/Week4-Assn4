@@ -13,13 +13,14 @@ void InitializeChnTbl(struct chnArray* , int );
 void HashSearching(int, int [], int * , struct chnArray * , int , int *, double & , double & );
 int FindOpenValue(int ,int [],int * ,int * , int );
 int FindChainValue(int [], struct chnArray *, int );
-
-
 int FindOpenValue(int ,int [],int * ,int * , int );
 int FindChainValue(int [], struct chnArray *, int );
 void HashSearching(int, int [], int * , struct chnArray * , int , int *, double & , double & );
 int QuadraticProbe(int [] , int , int );
 int DoubleHashValue(int [], int, int , int );
 void OpenHTInsertValues(int , int* & , int [] , int* &, int );
+void ChainProbe(struct chnArray *, int , int );
+void ChainHTInsertValues(struct chnArray *, int [], int );
+
 
 #endif /* defined(__townsendpeters_prog__HashADT__) */

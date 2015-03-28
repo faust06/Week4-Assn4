@@ -87,21 +87,9 @@ void InitializeOpenTbl(int* &openHashTbl, int* &idxStatusList, int hashTableSize
 // INPUT:
 // 	Parameters: 	chnHashTbl - hash table array of pointers for chained hashing
 //					hashTableSize - size of hash table from user
-//
-// OUTPUT:
-// 	Parameters: 	chnHashTbl - initialized array of ints for hash table
-//					passed back by reference
-//
-// IMPLEMENTED BY: 	Chad Peters
-//**********************************************************************
-//
-//					hashTableSize - size of hash table from user
-//
 // OUTPUT:
 // 	Return Val: 	chnHashTbl - initialized array of ints for hash table
 //					passed back by reference
-//
-//
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 void InitializeChnTbl(struct chnArray *chnHashTbl, int hashTableSize)
@@ -109,7 +97,7 @@ void InitializeChnTbl(struct chnArray *chnHashTbl, int hashTableSize)
 	// allocate memory for array OF POINTERS
 	chnHashTbl = new (nothrow) chnArray[hashTableSize];
 
-	// initialize all cells in openHashTable and idxStatusList to 0	
+	// initialize all cells in chnTable to 0
 	for(int i = 0; i < hashTableSize; i++){
 		chnHashTbl[i].link = NULL;
 	} // end for
@@ -305,9 +293,9 @@ int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hash
 //					and hash tables are modified by reference.
 //
 //INPUT:
-//					menuChoice - type of collision method defined by user
+//					menuChoice -    type of collision method defined by user
 //					openHashTbl[] - hash table array of integers for open 
-//					addressing passed by reference
+//                                  addressing passed by reference
 //					randomArray[] - random array of integers
 //					idxStatusList[] -   array list correlating with filled
 //                                      data in hash table passed by reference
@@ -324,7 +312,6 @@ int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hash
 //	
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-
 void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], int* &idxStatusList, int hashTableSize){
 	int initialValue = 0,				// placeholder for each initial value to be hashed
 		arrayCounter = 0,				// random array counter
@@ -377,3 +364,88 @@ void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], in
     dataOut.close();
     //**************************DEBUG*********************************
 }
+
+//*********************************************************************
+// FUNCTION: 		ChainProbe()
+// DESCRIPTION: 	Inserts value into the appropriate node of a separate chaining hashtable index
+// INPUT:
+//					chnHashTbl[] - hash table array of nodes
+//					randomArray[] - random array of integers
+//					hashTableSize - size of hash table from user
+// CALLS TO:		HashValue()
+//                  ChainProbe()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+void ChainProbe(struct chnArray *chnHashTable, int newHashValue, int randomValue)
+{
+    hashNode *current;                              //current node in hash table index
+    hashNode *newNode;                              //new node to place into chnHashTable
+    
+    //allocates memory for new node
+    newNode = new (nothrow) hashNode;
+    
+    //assigns the new value to new node
+    newNode->value = randomValue;
+    
+    //starts at beginning of chnHashTable index chain
+    current = chnHashTable[newHashValue].link;
+    
+    //checks to see if chain is empty, otherwise continues until last node of chain is found
+    if (current == NULL) {
+        chnHashTable[newHashValue].link = newNode;
+    }
+    else {
+        //finds end of chain for current index
+        while (current->next != NULL) {
+            current = current->next;
+        }
+        
+        //inserts new node onto the end of the chain
+        current->next = newNode;
+    }
+}
+
+
+//*********************************************************************
+// FUNCTION: 		ChainHTInsertValues
+// DESCRIPTION: 	Inserts random integer values from randomArray into a separate chaining table
+//                  and resolves collisions using separate chaining
+// INPUT:
+//					chnHashTbl[] - hash table array of nodes
+//					randomArray[] - random array of integers
+//					hashTableSize - size of hash table from user
+// CALLS TO:		HashValue()
+//                  ChainProbe()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+void ChainHTInsertValues(struct chnArray *chnHashTable, int randomArray[], int hashTableSize)
+{
+    int newHashValue = 0;                           //hash value for current number
+    
+    //loops through entire random array, placing value into chained hash table
+    for(int insertCounter = 0; insertCounter < RANDOM_ARRAY_UNIQUE_VALUES; insertCounter++) {
+        
+        //gets hash value for current random value being inserted into hash table
+        newHashValue = HashValue(randomArray[insertCounter], hashTableSize);
+        
+        //inserts hash value into chain table at appropriate node
+        ChainProbe(chnHashTable, newHashValue, randomArray[insertCounter]);
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
