@@ -169,11 +169,89 @@ void HashSearching(int testNum, int randomArray[], int *openHashTable, struct ch
 int FindOpenValue(int testNum,int randomArray[],int *openHashTable,int *idxStatusList, int hashTableSize)
 {
     int totalSearches = 0;                  //total number of searches needed to find values in the hash table
+    int randomSearches;                     //how many random values have been for
     
+    switch (testNum) {
+        case TEST_QUADRATIC_PROBING:
+            //calculates total searches needed for quadratic collision resolution
+            do {
+                
+                totalSearches += searchQuadValue(openHashTable, randomArray[randomSearches], hashTableSize);
+                
+                //increases search counter
+                randomSearches +=RANDOM_ARRAY_SEARCH_DIVISION;
+                
+            } while (randomSearches < RANDOM_ARRAY_UNIQUE_VALUES / RANDOM_ARRAY_SEARCH_DIVISION);
+            break;
+        case TEST_DOUBLE_HASHING:
+            
+            
+        default:
+            break;
+    }
+
     
     
     return totalSearches;
 }
+
+//*********************************************************************
+// FUNCTION: 		searchQuadValue()
+// DESCRIPTION: 	calculates quadratic probe value and number of time that hashtable
+//                  had to be searched for the value to be found
+// INPUT:
+// 	Parameters:     openHashTable[] - hash table array of integers for open addressing
+//                  hashValue - initial hash value
+//					hashTableSize - size of hash table from user
+// OUTPUT:
+// 	Return Value: 	totalSearches - total number of searches needed to find all values
+// CALLS TO:        HashValue()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+int SearchQuadValue(int *openHashTable, int initialValue, int hashTableSize)
+{
+    int totalSearches = 0;              //number of times array was searched for value
+    int probeNum = PROBE_NUM_START;		// starts probe at 1 because there is already a collision
+    int nextAddress = 0;				// tries another idx address to store initialValue
+    int tempAddress = 0;				// temp placeholder for collision addresses
+    
+    tempAddress = HashValue(initialValue, hashTableSize);
+    
+    //checks to see if the value is in the hashed index
+    if (openHashTable[tempAddress] == initialValue) {
+        totalSearches += 1;
+    }
+    //if there was a previous collision, value is searched for
+    else {
+        //continue searching through indices until value is found
+        do {
+            //calculates next index in which to look
+            nextAddress = (probeNum * probeNum) + tempAddress;
+            
+            //increases search counter
+            totalSearches += 1;
+            
+        }while(openHashTable[nextAddress] != initialValue);
+    }
+    
+    //returns number of searches needed to find value
+    return totalSearches;
+}
+
+//*********************************************************************
+// FUNCTION: 		searchDoubleHashValue()
+// DESCRIPTION: 	calculates Double Hash value and number of times that hashtable
+//                  had to be searched for the value to be found
+// INPUT:
+// 	Parameters:     openHashTable[] - hash table array of integers for open addressing
+//                  hashValue - initial hash value
+//					hashTableSize - size of hash table from user
+// OUTPUT:
+// 	Return Value: 	totalSearches - total number of searches needed to find all values
+// CALLS TO:        HashValue()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+int SearchDoubleHashValue
 
 //*********************************************************************
 // FUNCTION: 		FindChainValue()
@@ -223,10 +301,11 @@ int QuadraticProbe(int openHashTbl[], int hashVal, int hashTableSize){
 		//change idx
 		nextAddress = (probeNum * probeNum) + tempAddress;
 					
-		// if idx is full or the new address is the same as the initialValue
+		// if idx is full
 		if(openHashTbl[nextAddress] != 0){
-			tempAddress = nextAddress;
-			probeNum++;
+
+            tempAddress = nextAddress;
+            probeNum++;
         }
         else if(openHashTbl[nextAddress] == 0){
 			finalAddress = nextAddress % hashTableSize;
@@ -265,15 +344,16 @@ int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hash
 				
 	do {
 		if(openHashTbl[nextAddress] != 0){
+            
             // keep checking the nth pos for an empty spot
-			nextAddress += rehashInitialVal; 
-			
-			// return to beginning at different pos to continue searching for empty spot
-			if(nextAddress > hashTableSize){
+            nextAddress += rehashInitialVal;
+                
+            // return to beginning at different pos to continue searching for empty spot
+            if(nextAddress > hashTableSize){
                 nextAddress -= hashTableSize;
-			} // end if
-		
-		} else if(openHashTbl[nextAddress] == 0){
+            } // end if
+		}
+        else if(openHashTbl[nextAddress] == 0){
 			// when nextAddress is finally empty create the final address
 			finalAddress = nextAddress;
 		}// end if else
@@ -340,7 +420,7 @@ void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], in
         //if value cannot be placed directly, resolves collision with user's choice of open addressing resolution
         else {
             switch (menuChoice) {
-                case MENU_QUADRATIC: finalAddress = QuadraticProbe(openHashTbl, hashVal,  hashTableSize);
+                case MENU_QUADRATIC: finalAddress = QuadraticProbe(openHashTbl, hashVal, hashTableSize);
                     break;
                 case MENU_DOUBLE: finalAddress = DoubleHashValue(openHashTbl, hashVal, initialValue,  hashTableSize);
                 default:

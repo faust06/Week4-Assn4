@@ -233,8 +233,7 @@ bool DuplicateValue(int randomArray[], int arrayCounter, int searchValue){
 //**********************************************************************
 void InitializeRandomArray(int randomArray[]){
 	int rNum = 0;
-	bool dupFound = false;
-	
+    
 	//seeds random number generator with system clock
 	srandom(time(NULL));
     
