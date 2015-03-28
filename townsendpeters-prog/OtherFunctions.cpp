@@ -72,7 +72,9 @@ int RandomNum(){
 	
 	int rNum = 0;
 	
-	rNum = RANDOM_ARRAY_VALUE_MIN + (rand() % (int)(RANDOM_ARRAY_VALUE_MAX - RANDOM_ARRAY_VALUE_MIN + 1));
+	// (rand() % 30,000 - 1 + 1) + 1
+	rNum = (rand() % (RANDOM_ARRAY_VALUE_MAX - RANDOM_ARRAY_VALUE_MIN + RANDOM_ARRAY_VALUE_MIN))
+	        + RANDOM_ARRAY_VALUE_MIN;
 	
 	return rNum;
 	
