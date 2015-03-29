@@ -16,7 +16,7 @@ int main(int argc, const char * argv[]) {
     double  avg = 0,                                        // average number of searches for a collision resolution method
             kAvg = 0;                                       // predicted average number of searches for a collision resolution method
     chnArray *chnHashTbl = NULL;                            // initialize pointer for chained hash table type
-        
+    
     //asks user which type of test they would like to run
     do{
         //initializes randomArray with unique values
@@ -28,41 +28,8 @@ int main(int argc, const char * argv[]) {
         //asks user for size of hash table to be used
         hashTableSize = GetTableSize();
         
-        switch (menuChoice) {
-            case MENU_QUADRATIC:
-            case MENU_DOUBLE:
-                    // Initialize our hashtable and corresponding index list
-                    // Check for memory alloc fail
-                    try {
-                        InitializeOpenTbl(openHashTbl, idxStatusList, hashTableSize);
-                    } catch (bad_alloc& ex){
-                        cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
-                        noMemory = true;
-                    } // end try catch
-                
-                    //inserts values into open address hash table
-                    OpenHTInsertValues(menuChoice, openHashTbl, randomArray, idxStatusList, hashTableSize);
-                
-                break;
-                
-            case MENU_CHAINED:
-                    // Initialize our hashtable and corresponding index list
-                    // Check for memory alloc fail
-                    try {
-                        InitializeChnTbl(chnHashTbl, hashTableSize);
-                    } catch (bad_alloc& ex){
-                        cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
-                        noMemory = true;
-                    } // end try catch
-            
-                    //inserts values into separate chaining hash table
-                    ChainHTInsertValues(chnHashTbl, randomArray, hashTableSize);
-                
-                break;
-                
-            default:
-                break;
-        }
+        //initializes hashtable with selected collision resolution method
+        InitializeTable(menuChoice, openHashTbl, chnHashTbl, randomArray, idxStatusList, hashTableSize);
         
         //finds the average and predicted average number of searches for a selected collision resolution method
         totalSearches = HashSearching(menuChoice, randomArray, openHashTbl, chnHashTbl, hashTableSize, idxStatusList, avg, kAvg);

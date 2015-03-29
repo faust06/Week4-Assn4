@@ -297,6 +297,80 @@ void DisplayResults(int testNum, int hashTableSize, int totalSearches, double av
     
 }
 
+//*********************************************************************
+// FUNCTION: 		InitializeTable()
+// DESCRIPTION: 	Initializes and fills a hashtable using the selected collision resolution method
+// INPUT:
+//                  testNum - collision resolution method selected by the user
+//                  openHashTable - pointer to open address hashtable
+//                  chnHashTable - pointer to chained hashing hashtable
+//                  randomArray - array containing random values
+//                  idxStatusList - pointer to array containing status of open addressing hashtable indices
+//					hashTableSize - size of hashtable given by user
+// OUTPUT:
+//  Return Value:   noMemory - boolean to check whether memory is full
+//  Parameters:     openHashTable - pointer to open address hashtable
+//                  chnHashTable - pointer to chained hashing hashtable
+//                  idxStatusList - pointer to array containing status of open addressing hashtable indices
+// CALLS TO:        InitializeOpenTbl()
+//                  OpenHTInsertValues()
+//                  InitializeChnTbl()
+//                  ChainHTInsertValues()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+bool InitializeTable(int testNum, int* &openHashTable, struct chnArray* &chnHashTable, int randomArray[], int* &idxStatusList, int hashTableSize)
+{
+    bool noMemory = false;                      //boolean to check whether or not memory is full
+    
+    switch (testNum) {
+        case MENU_QUADRATIC:
+        case MENU_DOUBLE:
+            // Initialize our hashtable and corresponding index list
+            // Check for memory alloc fail
+            try {
+                InitializeOpenTbl(openHashTable, idxStatusList, hashTableSize);
+            } catch (bad_alloc& ex){
+                cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+                noMemory = true;
+            } // end try catch
+            
+            //inserts values into open address hash table
+            OpenHTInsertValues(testNum, openHashTable, randomArray, idxStatusList, hashTableSize);
+            
+            break;
+            
+        case MENU_CHAINED:
+            // Initialize our hashtable and corresponding index list
+            // Check for memory alloc fail
+            try {
+                InitializeChnTbl(chnHashTable, hashTableSize);
+            } catch (bad_alloc& ex){
+                cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+                noMemory = true;
+            } // end try catch
+            
+            //inserts values into separate chaining hash table
+            ChainHTInsertValues(chnHashTable, randomArray, hashTableSize);
+            
+            break;
+            
+        default:
+            break;
+    }
+
+    
+    
+    
+    return noMemory;
+}
+
+
+
+
+
+
+
+
 
 
 
