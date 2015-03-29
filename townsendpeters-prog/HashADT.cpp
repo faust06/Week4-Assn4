@@ -307,11 +307,11 @@ int SearchDoubleHashValue(int *openHashTable, int initialValue, int hashTableSiz
         //calculates next index to search by creating a double hash of the first hash
         // secondary rehash formula (key % (table size - 2)) + 1
         rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
-        nextAddress = (nextAddress + rehashInitialVal) % hashTableSize;	// assign the nextAddress
+        nextAddress = (nextAddress + rehashInitialVal); // %hashTableSize	// assign the nextAddress
 
         //makes sure next address is not past end of hashtable
         if(nextAddress > hashTableSize){
-            nextAddress -= hashTableSize;
+            nextAddress = nextAddress % hashTableSize;
         }
             
         //increases search count
@@ -445,14 +445,12 @@ int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hash
             
             // find next address since previous address doesn't work
             // secondary rehash formula (key % (table size - 2)) + 1
-            rehashInitialVal = (nextAddress % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
-            nextAddress = (nextAddress + rehashInitialVal) % hashTableSize;
-            
-            cout << "Can't write to index " << nextAddress << ", value is " << openHashTbl[nextAddress] << endl;
-                
+            rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
+            nextAddress = (nextAddress + rehashInitialVal);// % hashTableSize;
+                            
             // return to beginning at different pos to continue searching for empty spot
             if(nextAddress > hashTableSize){
-                nextAddress -= hashTableSize;
+                nextAddress = nextAddress % hashTableSize;
             } // end if
 		}
         else if(openHashTbl[nextAddress] == 0){
