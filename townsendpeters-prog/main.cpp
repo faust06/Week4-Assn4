@@ -64,6 +64,9 @@ int main(int argc, const char * argv[]) {
             
                     //inserts values into separate chaining hash table
                     ChainHTInsertValues(chnHashTbl, randomArray, hashTableSize);
+                
+                    cout << "It took " << FindChainValue(randomArray, chnHashTbl, hashTableSize) << " searches" << endl;
+
                 break;
                 
             default:

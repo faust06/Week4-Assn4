@@ -190,7 +190,7 @@ int FindOpenValue(int testNum, int randomArray[],int *openHashTable,int *idxStat
                 totalSearches += SearchDoubleHashValue(openHashTable, randomArray[randomSearches], hashTableSize);
                 
                 //increases search counter
-                randomSearches = RANDOM_ARRAY_SEARCH_DIVISION;
+                randomSearches += RANDOM_ARRAY_SEARCH_DIVISION;
                 
             } while (randomSearches < RANDOM_ARRAY_UNIQUE_VALUES);
             break;
@@ -245,8 +245,6 @@ int SearchQuadValue(int *openHashTable, int initialValue, int hashTableSize)
             tempAddress = nextAddress;
             probeNum++;
             
-
-            
             //increases search counter
             totalSearches += 1;
             
@@ -289,6 +287,11 @@ int SearchDoubleHashValue(int *openHashTable, int initialValue, int hashTableSiz
         rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
         nextAddress = (nextAddress + rehashInitialVal) % hashTableSize;	// assign the nextAddress
 
+        //makes sure next address is not past end of hashtable
+        if(nextAddress > hashTableSize){
+            nextAddress -= hashTableSize;
+        }
+            
         //increases search count
         totalSearches += 1;
         
@@ -314,9 +317,35 @@ int SearchDoubleHashValue(int *openHashTable, int initialValue, int hashTableSiz
 //**********************************************************************
 int FindChainValue(int randomArray[], struct chnArray *chnHashTable, int hashTableSize)
 {
-    int totalSearches = 0;                  //total number of searches needed to find a value in the hash table
+    int totalSearches = 0,                  //total number of searches needed to find a value in the hash table
+        nextAddress = 0,                    //next address in which to search for number
+        randomSearches = 0;                 //number of searches used so far
+    hashNode *current;                      //used to search through linked list at a hashed index
     
-    
+    do {
+        //calculates initial hash value for number
+        nextAddress = HashValue(randomArray[randomSearches], hashTableSize);
+        
+        //*************DEBUG
+        int check = randomArray[randomSearches];
+        //*************DEBUG
+
+        //starts at first node in linked list for hashed value
+        current = chnHashTable[nextAddress].link;
+        
+        //continues searching nodes until value is found
+        while(current->value != randomArray[randomSearches]) {
+            current = current->next;
+            totalSearches += 1;
+        }
+        
+        //increases search counter to account for initial hash
+        totalSearches += 1;
+        
+        //increases random array search value so that half the values are searched
+        randomSearches += RANDOM_ARRAY_SEARCH_DIVISION;
+        
+    }while (randomSearches < RANDOM_ARRAY_UNIQUE_VALUES);
     
     return totalSearches;
 }
