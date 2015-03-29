@@ -373,7 +373,7 @@ bool InitializeTable(int testNum, int* &openHashTable, struct chnArray* &chnHash
             
             if (!noMemory) {
                 //inserts values into separate chaining hash table
-                ChainHTInsertValues(chnHashTable, randomArray, hashTableSize);
+                noMemory = ChainHTInsertValues(chnHashTable, randomArray, hashTableSize);
             }
             break;
             
@@ -400,6 +400,8 @@ bool InitializeTable(int testNum, int* &openHashTable, struct chnArray* &chnHash
 //**********************************************************************
 void DestroyTables(int testNum, int* &openHashTable, struct chnArray* chnHashTable, int* &idxStatusList)
 {
+    hashNode    *currentNode,                       //node used to walk through linked lists
+                *deleteNode;                        //node used to delete nodes in linked lists
     
     switch (testNum) {
         case TEST_QUADRATIC_PROBING:
@@ -413,7 +415,19 @@ void DestroyTables(int testNum, int* &openHashTable, struct chnArray* chnHashTab
             idxStatusList = NULL;
             break;
         case TEST_SEPARATE_CHAINING:
-            //deletes chain hashing hashtable and reassigns pointer to NULL
+            //deletes chain hashing hashtable including all nodes and reassigns pointer to NULL
+            for (int deleteCounter = 0; deleteCounter < RANDOM_ARRAY_UNIQUE_VALUES; deleteCounter++) {
+                if (chnHashTable[deleteCounter].link != NULL) {
+                    
+                    currentNode = chnHashTable[deleteCounter].link;
+                    do {
+                        deleteNode = currentNode;
+                        currentNode = currentNode->next;
+                        
+                        delete deleteNode;
+                    } while (currentNode != NULL);
+                }
+            }
             delete chnHashTable;
             chnHashTable = NULL;
         default:

@@ -41,8 +41,8 @@ int FindChainValue(int [], struct chnArray *, int );
 int QuadraticProbe(int [] , int, int );
 int DoubleHashValue(int [], int, int , int );
 void OpenHTInsertValues(int , int* & , int [] , int* &, int );
-void ChainProbe(struct chnArray *, int , int );
-void ChainHTInsertValues(struct chnArray *, int [], int );
+bool ChainProbe(struct chnArray *, int , int );
+bool ChainHTInsertValues(struct chnArray *, int [], int );
 
 
 #endif /* defined(__townsendpeters_prog__HashADT__) */
