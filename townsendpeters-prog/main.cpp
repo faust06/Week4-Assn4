@@ -17,7 +17,6 @@ int main(int argc, const char * argv[]) {
             kAvg = 0;                                       // predicted average number of searches for a collision resolution method
     chnArray *chnHashTbl = NULL;                            // initialize pointer for chained hash table type
     
-    //asks user which type of test they would like to run
     do{
         //initializes randomArray with unique values
         InitializeRandomArray(randomArray);
@@ -29,15 +28,19 @@ int main(int argc, const char * argv[]) {
         hashTableSize = GetTableSize();
         
         //initializes hashtable with selected collision resolution method
-        InitializeTable(menuChoice, openHashTbl, chnHashTbl, randomArray, idxStatusList, hashTableSize);
+        noMemory = InitializeTable(menuChoice, openHashTbl, chnHashTbl, randomArray, idxStatusList, hashTableSize);
         
-        //finds the average and predicted average number of searches for a selected collision resolution method
-        totalSearches = HashSearching(menuChoice, randomArray, openHashTbl, chnHashTbl, hashTableSize, idxStatusList, avg, kAvg);
-        
-        //displays results to user
-        DisplayResults(menuChoice, hashTableSize, totalSearches, avg, kAvg);
-        
-        runAgainChoice = KeepTesting();
+        if (!noMemory) {
+            //finds the average and predicted average number of searches for a selected collision resolution method
+            totalSearches = HashSearching(menuChoice, randomArray, openHashTbl, chnHashTbl, hashTableSize, idxStatusList, avg, kAvg);
+            
+            //displays results to user
+            DisplayResults(menuChoice, hashTableSize, totalSearches, avg, kAvg);
+            
+            //asks user if they would like to run another test
+            runAgainChoice = KeepTesting();
+        }
+
    
 	}while(!noMemory && runAgainChoice != EXIT_PROGRAM);
 

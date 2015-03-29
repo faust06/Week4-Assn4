@@ -330,13 +330,16 @@ bool InitializeTable(int testNum, int* &openHashTable, struct chnArray* &chnHash
             try {
                 InitializeOpenTbl(openHashTable, idxStatusList, hashTableSize);
             } catch (bad_alloc& ex){
-                cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+                cerr << "Memory allocation failure -- open addressing hashtable was not fully initialized.";
                 noMemory = true;
             } // end try catch
             
-            //inserts values into open address hash table
-            OpenHTInsertValues(testNum, openHashTable, randomArray, idxStatusList, hashTableSize);
-            
+            //if memory is not full, continues to value insertion
+            if (!noMemory){
+                //inserts values into open address hash table
+                OpenHTInsertValues(testNum, openHashTable, randomArray, idxStatusList, hashTableSize);
+                
+            }
             break;
             
         case MENU_CHAINED:
@@ -345,22 +348,21 @@ bool InitializeTable(int testNum, int* &openHashTable, struct chnArray* &chnHash
             try {
                 InitializeChnTbl(chnHashTable, hashTableSize);
             } catch (bad_alloc& ex){
-                cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+                cerr << "Memory allocation failure -- chained hashtable was not fully initialized.";
                 noMemory = true;
             } // end try catch
             
-            //inserts values into separate chaining hash table
-            ChainHTInsertValues(chnHashTable, randomArray, hashTableSize);
-            
+            if (!noMemory) {
+                //inserts values into separate chaining hash table
+                ChainHTInsertValues(chnHashTable, randomArray, hashTableSize);
+            }
             break;
             
         default:
             break;
     }
-
     
-    
-    
+    //returns whether or not memory is full
     return noMemory;
 }
 
