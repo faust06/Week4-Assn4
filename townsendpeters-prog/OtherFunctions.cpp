@@ -97,6 +97,7 @@ int GetMenuChoice(){
 
 do{
 		cout << endl << "COLLISION RESOLUTION ANALYSIS PROGRAM\n" << endl
+                  << "Please choose a collision resolution method:\n"
 			 	  << "1 - Quadratic Probing Hashing\n"
 			 	  << "2 - Double Hashing\n"
 			 	  << "3 - Chained Hashing\n" << endl
@@ -366,8 +367,41 @@ bool InitializeTable(int testNum, int* &openHashTable, struct chnArray* &chnHash
     return noMemory;
 }
 
-
-
+//*********************************************************************
+// FUNCTION: 		DestroyTables()
+// DESCRIPTION: 	deletes dynamically allocated memory for hashtables after a test has been run
+// INPUT:
+//                  openHashTable - pointer to hashtable used for open addressing
+//                  chnHashTable - pointer to hashtable used for chain hashing
+//                  idxStatusList - pointer to array used for status of open addressing indices
+// OUTPUT:
+//  Parameters:     openHashTable - pointer to open address hashtable
+//                  chnHashTable - pointer to chained hashing hashtable
+//                  idxStatusList - pointer to array containing status of open addressing hashtable indices
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+void DestroyTables(int testNum, int* &openHashTable, struct chnArray* chnHashTable, int* &idxStatusList)
+{
+    
+    switch (testNum) {
+        case TEST_QUADRATIC_PROBING:
+        case TEST_DOUBLE_HASHING:
+            //deletes open addressing hashtable and reassigns pointer to NULL
+            delete openHashTable;
+            openHashTable = NULL;
+            
+            //deletes open addressing status list and reassigns pointer to NULL
+            delete idxStatusList;
+            idxStatusList = NULL;
+            break;
+        case TEST_SEPARATE_CHAINING:
+            //deletes chain hashing hashtable and reassigns pointer to NULL
+            delete chnHashTable;
+            chnHashTable = NULL;
+        default:
+            break;
+    }
+}
 
 
 

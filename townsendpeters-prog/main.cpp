@@ -37,6 +37,9 @@ int main(int argc, const char * argv[]) {
             //displays results to user
             DisplayResults(menuChoice, hashTableSize, totalSearches, avg, kAvg);
             
+            //frees up dynamically allocated memory from test
+            DestroyTables(menuChoice, openHashTbl, chnHashTbl, idxStatusList);
+            
             //asks user if they would like to run another test
             runAgainChoice = KeepTesting();
         }
