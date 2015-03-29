@@ -1,4 +1,24 @@
-// File description goes here
+//*********************************************************************
+// CODE FILENAME:   HashADT.cpp
+// DESCRIPTION:     file containing the implementation for functions defined in HashADT.h
+//                  or exit the program.
+// CLASS/TERM:      2015 Spring 8 week Section 2
+// DESIGNER:        Neil Townsend and Chad Peters
+// FUNCTIONS        HashValue()                 Calculates hash value of a number using modulo division
+//                  CalculateLoadFactor()       Calculates the load factor of a hashtable
+//                  InitializeOpenTbl()         allocates and initializes a hashtable to use for open addressing
+//                  InitializeChnTbl()          allocates and initializes a hashtable to use for chained hashing
+//                  HashSearching()             searches through a selected hashtable and calculates average and predicted average searches
+//                  FindOpenValue()             finds values in an open addressing hashtable
+//                  SearchQuadValue()           searches for a given value in a hashtable using quadratic probing collision resolution
+//                  SearchDoubleHashValue()     searches for a given value in a hashtable using double hashing collision resolution
+//                  FindChainValue()            finds values in a chain hashing hashtable
+//                  QuadraticProbe()            resolves collision when placing values into a hashtable using quadratic probing
+//                  DoubleHashValue()           resolves collision when placing values into a hashtable using double hashing
+//                  OpenHTInsertValues()        inserts values into an open addressing hashtable
+//                  ChainProbe()                resolves collision when placing values into a hashtable using chained hashing
+//                  ChainHTInsertValues()       inserts values into a chained hashing hashtable
+//**********************************************************************
 
 #include "HashADT.h"
 #include "Common.h"

@@ -1,4 +1,10 @@
-// Header description goes here
+//*********************************************************************
+// CODE FILENAME:   common.h
+// DESCRIPTION:     header file containing constants and data structure definitions to be used in
+//                  townsendpeters-assn3-prog.cpp
+// CLASS/TERM:      2015 Spring 8 week Section 2
+// DESIGNER:        Neil Townsend and Chad Peters
+//**********************************************************************
 
 //Include Guards
 #ifndef townsendpeters_prog_Common_h
