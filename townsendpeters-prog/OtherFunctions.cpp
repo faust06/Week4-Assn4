@@ -1,4 +1,22 @@
-// File description goes here
+//*********************************************************************
+// CODE FILENAME:   OtherFunctions.cpp
+// DESCRIPTION:     File containing the implementation for other functions needed for use
+//                  in townsendpeters-assn3-prog.cpp. These functions aid in the calculation of
+//                  efficacy for different collision resolution methods used with hashtables
+// CLASS/TERM:      2015 Spring 8 week Section 2
+// DESIGNER:        Neil Townsend and Chad Peters
+// FUNCTIONS        CalculateAverage()          calculates the average number of searches per item in a hashtable
+//                  CalculateKnuthAverage()     calculates the predicted average number of searches per item in a hashtable
+//                  GetMenuChoice()             asks the user which collision resolution method they would like to test
+//                  GetTableSize()              asks the user how large of a hashtable they would like to use for testing
+//                  KeepTesting()               asks the user if they would like to run another collision resolution test
+//                  RandomNum()                 generates a random number within a range of acceptable values
+//                  DuplicateValue()            checks to see if the randomly generated number is unique
+//                  InitializeRandomArray()     fills an array with unique random values
+//                  DisplayResults()            displays results of collision resolution method to user
+//                  InitializeTable()           handles allocation and initialization of hashtable to match user's choice
+//                  DestroyTables()             frees up memory that was dynamically allocated for each test
+//**********************************************************************
 
 #include "OtherFunctions.h"
 #include "Common.h"
@@ -97,6 +115,7 @@ int GetMenuChoice(){
 
 do{
 		cout << endl << "COLLISION RESOLUTION ANALYSIS PROGRAM\n" << endl
+                  << "Please choose a collision resolution method:\n"
 			 	  << "1 - Quadratic Probing Hashing\n"
 			 	  << "2 - Double Hashing\n"
 			 	  << "3 - Chained Hashing\n" << endl
@@ -330,13 +349,16 @@ bool InitializeTable(int testNum, int* &openHashTable, struct chnArray* &chnHash
             try {
                 InitializeOpenTbl(openHashTable, idxStatusList, hashTableSize);
             } catch (bad_alloc& ex){
-                cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+                cerr << "Memory allocation failure -- open addressing hashtable was not fully initialized.";
                 noMemory = true;
             } // end try catch
             
-            //inserts values into open address hash table
-            OpenHTInsertValues(testNum, openHashTable, randomArray, idxStatusList, hashTableSize);
-            
+            //if memory is not full, continues to value insertion
+            if (!noMemory){
+                //inserts values into open address hash table
+                OpenHTInsertValues(testNum, openHashTable, randomArray, idxStatusList, hashTableSize);
+                
+            }
             break;
             
         case MENU_CHAINED:
@@ -345,27 +367,73 @@ bool InitializeTable(int testNum, int* &openHashTable, struct chnArray* &chnHash
             try {
                 InitializeChnTbl(chnHashTable, hashTableSize);
             } catch (bad_alloc& ex){
-                cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+                cerr << "Memory allocation failure -- chained hashtable was not fully initialized.";
                 noMemory = true;
             } // end try catch
             
-            //inserts values into separate chaining hash table
-            ChainHTInsertValues(chnHashTable, randomArray, hashTableSize);
-            
+            if (!noMemory) {
+                //inserts values into separate chaining hash table
+                noMemory = ChainHTInsertValues(chnHashTable, randomArray, hashTableSize);
+            }
             break;
             
         default:
             break;
     }
-
     
-    
-    
+    //returns whether or not memory is full
     return noMemory;
 }
 
-
-
+//*********************************************************************
+// FUNCTION: 		DestroyTables()
+// DESCRIPTION: 	deletes dynamically allocated memory for hashtables after a test has been run
+// INPUT:
+//                  openHashTable - pointer to hashtable used for open addressing
+//                  chnHashTable - pointer to hashtable used for chain hashing
+//                  idxStatusList - pointer to array used for status of open addressing indices
+// OUTPUT:
+//  Parameters:     openHashTable - pointer to open address hashtable
+//                  chnHashTable - pointer to chained hashing hashtable
+//                  idxStatusList - pointer to array containing status of open addressing hashtable indices
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+void DestroyTables(int testNum, int* &openHashTable, struct chnArray* chnHashTable, int* &idxStatusList)
+{
+    hashNode    *currentNode,                       //node used to walk through linked lists
+                *deleteNode;                        //node used to delete nodes in linked lists
+    
+    switch (testNum) {
+        case TEST_QUADRATIC_PROBING:
+        case TEST_DOUBLE_HASHING:
+            //deletes open addressing hashtable and reassigns pointer to NULL
+            delete openHashTable;
+            openHashTable = NULL;
+            
+            //deletes open addressing status list and reassigns pointer to NULL
+            delete idxStatusList;
+            idxStatusList = NULL;
+            break;
+        case TEST_SEPARATE_CHAINING:
+            //deletes chain hashing hashtable including all nodes and reassigns pointer to NULL
+            for (int deleteCounter = 0; deleteCounter < RANDOM_ARRAY_UNIQUE_VALUES; deleteCounter++) {
+                if (chnHashTable[deleteCounter].link != NULL) {
+                    
+                    currentNode = chnHashTable[deleteCounter].link;
+                    do {
+                        deleteNode = currentNode;
+                        currentNode = currentNode->next;
+                        
+                        delete deleteNode;
+                    } while (currentNode != NULL);
+                }
+            }
+            delete chnHashTable;
+            chnHashTable = NULL;
+        default:
+            break;
+    }
+}
 
 
 

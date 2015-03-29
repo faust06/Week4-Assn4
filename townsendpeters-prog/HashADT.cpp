@@ -1,4 +1,24 @@
-// File description goes here
+//*********************************************************************
+// CODE FILENAME:   HashADT.cpp
+// DESCRIPTION:     file containing the implementation for functions defined in HashADT.h
+//                  or exit the program.
+// CLASS/TERM:      2015 Spring 8 week Section 2
+// DESIGNER:        Neil Townsend and Chad Peters
+// FUNCTIONS        HashValue()                 Calculates hash value of a number using modulo division
+//                  CalculateLoadFactor()       Calculates the load factor of a hashtable
+//                  InitializeOpenTbl()         allocates and initializes a hashtable to use for open addressing
+//                  InitializeChnTbl()          allocates and initializes a hashtable to use for chained hashing
+//                  HashSearching()             searches through a selected hashtable and calculates average and predicted average searches
+//                  FindOpenValue()             finds values in an open addressing hashtable
+//                  SearchQuadValue()           searches for a given value in a hashtable using quadratic probing collision resolution
+//                  SearchDoubleHashValue()     searches for a given value in a hashtable using double hashing collision resolution
+//                  FindChainValue()            finds values in a chain hashing hashtable
+//                  QuadraticProbe()            resolves collision when placing values into a hashtable using quadratic probing
+//                  DoubleHashValue()           resolves collision when placing values into a hashtable using double hashing
+//                  OpenHTInsertValues()        inserts values into an open addressing hashtable
+//                  ChainProbe()                resolves collision when placing values into a hashtable using chained hashing
+//                  ChainHTInsertValues()       inserts values into a chained hashing hashtable
+//**********************************************************************
 
 #include "HashADT.h"
 #include "Common.h"
@@ -287,11 +307,11 @@ int SearchDoubleHashValue(int *openHashTable, int initialValue, int hashTableSiz
         //calculates next index to search by creating a double hash of the first hash
         // secondary rehash formula (key % (table size - 2)) + 1
         rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
-        nextAddress = (nextAddress + rehashInitialVal) % hashTableSize;	// assign the nextAddress
+        nextAddress = (nextAddress + rehashInitialVal); // %hashTableSize	// assign the nextAddress
 
         //makes sure next address is not past end of hashtable
         if(nextAddress > hashTableSize){
-            nextAddress -= hashTableSize;
+            nextAddress = nextAddress % hashTableSize;
         }
             
         //increases search count
@@ -327,10 +347,6 @@ int FindChainValue(int randomArray[], struct chnArray *chnHashTable, int hashTab
     do {
         //calculates initial hash value for number
         nextAddress = HashValue(randomArray[randomSearches], hashTableSize);
-        
-        //*************DEBUG
-        int check = randomArray[randomSearches];
-        //*************DEBUG
 
         //starts at first node in linked list for hashed value
         current = chnHashTable[nextAddress].link;
@@ -416,32 +432,35 @@ int QuadraticProbe(int openHashTbl[], int hashVal, int hashTableSize){
 int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hashTableSize){
 	
 	int rehashInitialVal = 0;
-	int nextAddress = 0;
+	int nextAddress = hashValue;
 	int finalAddress = 0;
+    bool found = false;
 		
-	// find next address since initial address doesn't work	
-	// secondary rehash formula (key % (table size - 2)) + 1
-	rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
-	nextAddress = (hashValue + rehashInitialVal) % hashTableSize;	// assign the nextAddress		
+
+	//rehashInitialVal = (hashValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
+	//nextAddress = (hashValue + rehashInitialVal) % hashTableSize;	// assign the nextAddress
 				
 	do {
 		if(openHashTbl[nextAddress] != 0){
             
-            // keep checking the nth pos for an empty spot
-            nextAddress = (nextAddress + rehashInitialVal) % hashTableSize;
-                
+            // find next address since previous address doesn't work
+            // secondary rehash formula (key % (table size - 2)) + 1
+            rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
+            nextAddress = (nextAddress + rehashInitialVal);// % hashTableSize;
+                            
             // return to beginning at different pos to continue searching for empty spot
             if(nextAddress > hashTableSize){
-                nextAddress -= hashTableSize;
+                nextAddress = nextAddress % hashTableSize;
             } // end if
 		}
         else if(openHashTbl[nextAddress] == 0){
 			// when nextAddress is finally empty create the final address
 			finalAddress = nextAddress;
+            found = true;
 		}// end if else
 	
 	// continue to loop unless finalAddress has a value other than 0	
-	}while(finalAddress == 0);	
+	}while(!found);
 	
 	return finalAddress;
 
@@ -534,35 +553,49 @@ void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], in
 //					chnHashTbl[] - hash table array of nodes
 //					randomArray[] - random array of integers
 //					randomValue - value that is being placed into hashtable
+// OUTPUT:
+//  Return value:   noMemory - boolean to check whether memory could be allocated
 // IMPLEMENTED BY: 	Neil Townsend
 //**********************************************************************
-void ChainProbe(struct chnArray *chnHashTable, int newHashValue, int randomValue)
+bool ChainProbe(struct chnArray *chnHashTable, int newHashValue, int randomValue)
 {
     hashNode *current;                              //current node in hash table index
     hashNode *newNode;                              //new node to place into chnHashTable
+    bool noMemory = false;                                  //boolean to check memory allocation
     
     //allocates memory for new node
     newNode = new (nothrow) hashNode;
     
-    //assigns the new value to new node
-    newNode->value = randomValue;
-    
-    //starts at beginning of chnHashTable index chain
-    current = chnHashTable[newHashValue].link;
-    
-    //checks to see if chain is empty, otherwise continues until last node of chain is found
-    if (current == NULL) {
-        chnHashTable[newHashValue].link = newNode;
-    }
-    else {
-        //finds end of chain for current index
-        while (current->next != NULL) {
-            current = current->next;
-        }
+    //as long as memory could be allocated, inserts value onto end of linked list
+    if(newNode != NULL) {
+        //assigns the new value to new node
+        newNode->value = randomValue;
+        newNode->next = NULL;
         
-        //inserts new node onto the end of the chain
-        current->next = newNode;
+        //starts at beginning of chnHashTable index chain
+        current = chnHashTable[newHashValue].link;
+        
+        //checks to see if chain is empty, otherwise continues until last node of chain is found
+        if (current == NULL) {
+            chnHashTable[newHashValue].link = newNode;
+        }
+        else {
+            //finds end of chain for current index
+            while (current->next != NULL) {
+                current = current->next;
+            }
+            
+            //inserts new node onto the end of the chain
+            current->next = newNode;
+        }
     }
+    //if memory could not be allocated, error message displayed and function exited
+    else {
+        noMemory = true;
+        cout << "Error - cannot allocate memory. Separate chaining cannot be tested" << endl;
+    }
+    
+    return noMemory;
 }
 
 
@@ -574,22 +607,25 @@ void ChainProbe(struct chnArray *chnHashTable, int newHashValue, int randomValue
 //					chnHashTbl[] - hash table array of nodes
 //					randomArray[] - random array of integers
 //					hashTableSize - size of hash table from user
+// OUTPUT:
+//  Return Value:   noMemory - boolean to test memory allocation
 // CALLS TO:		HashValue()
 //                  ChainProbe()
 // IMPLEMENTED BY: 	Neil Townsend
 //**********************************************************************
-void ChainHTInsertValues(struct chnArray *chnHashTable, int randomArray[], int hashTableSize)
+bool ChainHTInsertValues(struct chnArray *chnHashTable, int randomArray[], int hashTableSize)
 {
     int newHashValue = 0;                           //hash value for current number
+    bool noMemory = false;                          //boolean to test memory availability
     
     //loops through entire random array, placing value into chained hash table
-    for(int insertCounter = 0; insertCounter < RANDOM_ARRAY_UNIQUE_VALUES; insertCounter++) {
+    for(int insertCounter = 0; (insertCounter < RANDOM_ARRAY_UNIQUE_VALUES) && (!noMemory); insertCounter++) {
         
         //gets hash value for current random value being inserted into hash table
         newHashValue = HashValue(randomArray[insertCounter], hashTableSize);
         
         //inserts hash value into chain table at appropriate node
-        ChainProbe(chnHashTable, newHashValue, randomArray[insertCounter]);
+        noMemory = ChainProbe(chnHashTable, newHashValue, randomArray[insertCounter]);
     }
     
     //**************************DEBUG******************************
@@ -617,6 +653,8 @@ void ChainHTInsertValues(struct chnArray *chnHashTable, int randomArray[], int h
     } // end for
     dataOut.close();
     //**************************DEBUG*********************************
+    
+    return noMemory;
 }
 
 
