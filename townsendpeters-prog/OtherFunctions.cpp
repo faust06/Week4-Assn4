@@ -257,3 +257,48 @@ void InitializeRandomArray(int randomArray[]){
         
 	} // end for	
 }
+
+//*********************************************************************
+// FUNCTION: 		DisplayResults()
+// DESCRIPTION: 	Displays results of collision resolution method to the user
+// INPUT:
+//					hashTableSize - size of hashtable given by user
+//                  totalSearches - the total number of searches needed to find half the random values
+//                  avg - the average number of searches needed per value
+//                  kAvg - the predicted average number of searches needed per value
+// CALLS TO:        CalculateLoadFactor()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+void DisplayResults(int testNum, int hashTableSize, int totalSearches, double avg, double kAvg)
+{
+    //sets number of decimal places
+    cout << fixed << showpoint << setprecision(OUTPUT_SIG_DIGS);
+    
+    //displays results to user
+    cout << RANDOM_ARRAY_UNIQUE_VALUES << " values loaded into a " << hashTableSize << " element hash table" << endl;
+    cout << "Load Factor: " << CalculateLoadFactor(hashTableSize) << endl << endl;
+    
+    cout << "Results of searching for " << RANDOM_ARRAY_UNIQUE_VALUES / RANDOM_ARRAY_SEARCH_DIVISION << " items:" << endl << endl;
+    
+    cout << "     ";
+    switch (testNum) {
+        case TEST_QUADRATIC_PROBING: cout << "Quadratic Probing" << endl;
+            break;
+        case TEST_DOUBLE_HASHING: cout << "Double Hashing" << endl;
+            break;
+        case TEST_SEPARATE_CHAINING: cout << "Chained Hashing" <<endl;
+            break;
+        default:
+            break;
+    }
+    
+    cout << setw(OUTPUT_TOTAL_SEARCH_FIELD) << totalSearches << " items examined (avg = " << avg << " items examined per search)" << endl;
+    cout << setw(OUTPUT_TOTAL_SEARCH_FIELD) << "vs" << " Knuth predicted avg = " << kAvg << " items examined per search" << endl;
+    
+}
+
+
+
+
+
+

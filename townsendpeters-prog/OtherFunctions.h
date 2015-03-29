@@ -15,6 +15,7 @@ int RandomNum();
 bool DuplicateValue(int [], int , int );
 void InitializeRandomArray(int []);
 int RandomNum();
+void DisplayResults(int , int , int , double , double );
 
 
 

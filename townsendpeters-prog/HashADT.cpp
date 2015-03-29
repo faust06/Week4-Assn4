@@ -128,7 +128,7 @@ void InitializeChnTbl(struct chnArray* &chnHashTbl, int hashTableSize)
 //                  CalculateLoadFactor()
 // IMPLEMENTED BY: 	Neil Townsend
 //**********************************************************************
-void HashSearching(int testNum, int randomArray[], int *openHashTable, struct chnArray *chnHashTable, int hashTableSize, int *idxStatusList, double &avg, double &kAvg)
+int HashSearching(int testNum, int randomArray[], int *openHashTable, struct chnArray *chnHashTable, int hashTableSize, int *idxStatusList, double &avg, double &kAvg)
 {
     int totalSearches;                      //total number of searches to find values in a given hash table
     
@@ -145,6 +145,8 @@ void HashSearching(int testNum, int randomArray[], int *openHashTable, struct ch
     
     avg = CalculateAverage(totalSearches);
     kAvg = CalculateKnuthAverage(totalSearches, testNum, CalculateLoadFactor(hashTableSize));
+    
+    return totalSearches;
 }
 
 //*********************************************************************
@@ -169,7 +171,7 @@ void HashSearching(int testNum, int randomArray[], int *openHashTable, struct ch
 int FindOpenValue(int testNum, int randomArray[],int *openHashTable,int *idxStatusList, int hashTableSize)
 {
     int totalSearches = 0;                  //total number of searches needed to find values in the hash table
-    int randomSearches;                     //how many random values have been for
+    int randomSearches = 0;                 //how many random values have been searched for
     
     switch (testNum) {
         case TEST_QUADRATIC_PROBING:
@@ -426,7 +428,7 @@ int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hash
 		if(openHashTbl[nextAddress] != 0){
             
             // keep checking the nth pos for an empty spot
-            nextAddress += rehashInitialVal;
+            nextAddress = (nextAddress + rehashInitialVal) % hashTableSize;
                 
             // return to beginning at different pos to continue searching for empty spot
             if(nextAddress > hashTableSize){

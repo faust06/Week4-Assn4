@@ -11,28 +11,22 @@ int main(int argc, const char * argv[]) {
         menuChoice = 0,                                     // handles user input for menu options
         *openHashTbl = NULL,                                // initialize pointer for hash table
         *idxStatusList = NULL,                              // initialize pointer for corresponding index list for hash table
-        randomArray[RANDOM_ARRAY_UNIQUE_VALUES] = {0};      //array that will contain random values
+        randomArray[RANDOM_ARRAY_UNIQUE_VALUES] = {0},      // array that will contain random values
+        totalSearches = 0;                                  // total number of searches performed to find half the random values
+    double  avg = 0,                                        // average number of searches for a collision resolution method
+            kAvg = 0;                                       // predicted average number of searches for a collision resolution method
     chnArray *chnHashTbl = NULL;                            // initialize pointer for chained hash table type
-    
-    //initializes randomArray with unique values
-    InitializeRandomArray(randomArray);
-    
-    /*for(int checkNum = 0; checkNum < RANDOM_ARRAY_UNIQUE_VALUES; checkNum++) {
-        cout << randomArray[checkNum] << endl;
-    }*/
-    
+        
     //asks user which type of test they would like to run
     do{
+        //initializes randomArray with unique values
+        InitializeRandomArray(randomArray);
+        
     	// display menu for user and get menu choice
     	menuChoice = GetMenuChoice();
         
         //asks user for size of hash table to be used
         hashTableSize = GetTableSize();
-        
-        //***************DEBUG******************
-        cout << endl << "hashTableSize: " << hashTableSize << endl;
-        cout << endl << "Load Factor: " << CalculateLoadFactor(hashTableSize) << endl;
-        //**************************************
         
         switch (menuChoice) {
             case MENU_QUADRATIC:
@@ -49,7 +43,6 @@ int main(int argc, const char * argv[]) {
                     //inserts values into open address hash table
                     OpenHTInsertValues(menuChoice, openHashTbl, randomArray, idxStatusList, hashTableSize);
                 
-                    cout << "It took " << FindOpenValue(menuChoice, randomArray, openHashTbl, idxStatusList, hashTableSize) << " searches" << endl;
                 break;
                 
             case MENU_CHAINED:
@@ -65,13 +58,17 @@ int main(int argc, const char * argv[]) {
                     //inserts values into separate chaining hash table
                     ChainHTInsertValues(chnHashTbl, randomArray, hashTableSize);
                 
-                    cout << "It took " << FindChainValue(randomArray, chnHashTbl, hashTableSize) << " searches" << endl;
-
                 break;
                 
             default:
                 break;
         }
+        
+        //finds the average and predicted average number of searches for a selected collision resolution method
+        totalSearches = HashSearching(menuChoice, randomArray, openHashTbl, chnHashTbl, hashTableSize, idxStatusList, avg, kAvg);
+        
+        //displays results to user
+        DisplayResults(menuChoice, hashTableSize, totalSearches, avg, kAvg);
         
         runAgainChoice = KeepTesting();
    
