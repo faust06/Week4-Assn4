@@ -73,7 +73,7 @@ int RandomNum(){
 	int rNum = 0;
 	
 	// (rand() % 30,000 - 1 + 1) + 1
-	rNum = (rand() % (RANDOM_ARRAY_VALUE_MAX - RANDOM_ARRAY_VALUE_MIN + RANDOM_ARRAY_VALUE_MIN))
+	rNum = (random() % (RANDOM_ARRAY_VALUE_MAX - RANDOM_ARRAY_VALUE_MIN + RANDOM_ARRAY_VALUE_MIN))
 	        + RANDOM_ARRAY_VALUE_MIN;
 	
 	return rNum;
@@ -86,10 +86,8 @@ int RandomNum(){
 // DESCRIPTION: 	Gets menu choice from user and error checks it
 //INPUT:
 //					menuChoice - number entered by user
-//
 //OUTPUT:
 //  Return Val:		menuChoice - error checked number
-//
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 
@@ -98,34 +96,28 @@ int GetMenuChoice(){
 	int menuChoice = 0;
 
 do{
-
 		cout << endl << "COLLISION RESOLUTION ANALYSIS PROGRAM\n" << endl
 			 	  << "1 - Quadratic Probing Hashing\n"
 			 	  << "2 - Double Hashing\n"
 			 	  << "3 - Chained Hashing\n" << endl
 			 	  << "Enter Menu Option (1/2/3): ";
-		 	  
 		cin >> menuChoice;
 
 		// if not a number
 		if(cin.fail()){
-			
 			cout << endl << "invalid character -- ignoring line" << endl;
 			cin.clear();	// clear cin stream
 			cin.ignore(numeric_limits<int>::max(), '\n');	// numbers only
-						
-		} else if (menuChoice > MENU_CHAINED && menuChoice < MENU_QUADRATIC){
-		
+		}
+        else if (menuChoice > MENU_CHAINED && menuChoice < MENU_QUADRATIC){
 			cout << endl << "Must choose option 1, 2, or 3." << endl;
-		
 		}// end if else if		
-	
+
 	}while(menuChoice != MENU_QUADRATIC && menuChoice != MENU_DOUBLE && menuChoice != MENU_CHAINED);
 	
 	cout << endl;
 	
 	return menuChoice;
-	
 }
 
 //*********************************************************************
@@ -134,40 +126,31 @@ do{
 //					user input
 //INPUT:
 //					userNum - number entered by user
-//
 //OUTPUT:
 //  Return Val:		userNum - error checked number
-//
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-
 int GetTableSize(){
-	
 	int userNum = 0;
 	
-    	// error check user input for >= 6700 hash table size 
+    // error check user input for >= 6700 hash table size
 	do{
-	
 		cout << "Please enter a hash table size (min val of 6700): ";
 		cin >> userNum;
 	
 		// if not a number
 		if(cin.fail()){
-			
 			cout << endl << "invalid character -- ignoring line" << endl;
 			cin.clear();	// clear cin stream
 			cin.ignore(numeric_limits<int>::max(), '\n');	// numbers only
-						
-		} else if (userNum < HASH_TABLE_MINIMUM_SIZE){
-		
+		}
+        else if (userNum < HASH_TABLE_MINIMUM_SIZE){
 			cout << endl << "Table size must be >= 6700." << endl;
-		
 		}// end if else if	
 	
 	}while(!(userNum >= HASH_TABLE_MINIMUM_SIZE)); // end while
 	
 	return userNum;
-	
 }
 
 //*********************************************************************
@@ -176,24 +159,18 @@ int GetTableSize(){
 //					checks user input
 //INPUT:
 //					userChar - char entered by user
-//
-//OUTPUT:
+////OUTPUT:
 //  Return Val:		userChar - error checked char
-//
-// IMPLEMENTED BY: 	Chad Peters
+//// IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-
 char KeepTesting(){
-	
 	char userChar = '-';
 	
 	//USED AT END TO CONTINUE OR QUIT
    	// error check user input for Y or N
 	do{
-	
 		cout << endl << "Do you want to conduct another hashing test?(Y/N): ";
 		cin >> userChar;
-		
 		userChar = toupper(userChar);
 		
 		//debug
@@ -202,94 +179,14 @@ char KeepTesting(){
 	
 		// if not a number
 		if(userChar != EXIT_PROGRAM && userChar != CONT_PROGRAM){
-			
 			cout << endl << "invalid character -- ignoring line" << endl;
 			cin.clear();	// clear cin stream
 			cin.ignore(numeric_limits<char>::max(), '\n');	// char only
-						
 		} // end if
 	
 	}while(userChar != CONT_PROGRAM && userChar != EXIT_PROGRAM); // end do while
 	
 	return userChar;
-	
-}
-
-//*********************************************************************
-// FUNCTION: 		RandomNum()
-// DESCRIPTION: 	generates a random number between RANDOM_ARRAY_VALUE_MIN and RANDOM_ARRAY_VALUE_MAX
-// OUTPUT:
-// 	Return Val: 	newRandomNum
-// IMPLEMENTED BY: 	Neil Townsend
-//**********************************************************************
-int RandomNum()
-{
-    int newRandomNum = 0;                           //randomly generated number
-
-    //generates random number within acceptable ranges
-    newRandomNum = random() % RANDOM_ARRAY_VALUE_MAX + RANDOM_ARRAY_VALUE_MIN;
-    
-    //returns new random number
-    return newRandomNum;
-}
-
-//*********************************************************************
-// FUNCTION: 		InitializeRandomArray()
-// DESCRIPTION: 	initializes the random array with RANDOM_ARRAY_UNIQUE_VALUES worth of random values
-// INPUT:
-// 	Parameters: 	randomArray[] - array that will contain unique random values
-// OUTPUT:
-// 	Parameters: 	randomArray[] - array that will contain unique random values
-// CALLS TO:        RandomNum()
-//                  DuplicateValue()
-// IMPLEMENTED BY: 	Neil Townsend
-//**********************************************************************
-bool DuplicateValue(int randomArray[], int newRandomNum, int randomCount)
-{
-    bool dupFound = false;                          //boolean to check whether newRandomNum already exists
-                                                    //in randomArray
-    
-    //checks all of randomArray to see if newRandomNum already exists
-    for(int dupCounter = 0; dupCounter < randomCount; dupCounter++) {
-        if(randomArray[dupCounter] == newRandomNum) {
-            dupFound = true;
-        }
-    }
-    
-    //returns boolean for whether or not newRandomNum is unique
-    return dupFound;
-}
-//*********************************************************************
-// FUNCTION: 		InitializeRandomArray()
-// DESCRIPTION: 	initializes the random array with RANDOM_ARRAY_UNIQUE_VALUES worth of random values
-// INPUT:
-// 	Parameters: 	randomArray[] - array that will contain unique random values
-// OUTPUT:
-// 	Parameters: 	randomArray[] - array that will contain unique random values
-// CALLS TO:        RandomNum()
-//                  DuplicateValue()
-// IMPLEMENTED BY: 	Neil Townsend
-//**********************************************************************
-void InitializeRandomArray(int randomArray[])
-{
-    int newRandomNum = 0;                          //randomly generated num to place into array if unique
-    
-    //seeds random number generator with the current time
-    srandom(time(NULL));
-    
-    //fills randomArray with unique random values
-    for(int randomCount = 0; randomCount < RANDOM_ARRAY_UNIQUE_VALUES; randomCount++) {
-        do {
-            //generates new random num
-            newRandomNum = RandomNum();
-        
-            //checks to make sure value does not already exist in array
-            if(!DuplicateValue(randomArray, newRandomNum, randomCount)) {
-                randomArray[randomCount] = newRandomNum;
-                cout << "Inserting new value: " << newRandomNum << " into index " << randomCount << endl;
-            }
-        }while(randomArray[randomCount] == 0);
-    }
 }
 
 //**********************************************************************
@@ -299,32 +196,23 @@ void InitializeRandomArray(int randomArray[])
 //INPUT:
 //					randomArray[] - array containing random integers
 //					between the values of 1 - 30,000
-//
-//					searchValue - new value to search through array for	
-//
+//					searchValue - new value to search through array for
 //OUTPUT:
 //  Return Val:		dupFound - boolean for whether there is a duplicate
 //					value
-//
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
-
 bool DuplicateValue(int randomArray[], int arrayCounter, int searchValue){
-	
 	int i = 0;
 	bool dupFound = false;
 	
 	while(i < arrayCounter && !dupFound){
-		
 		// change dupFound to true if duplicate num is found
 		if(searchValue == randomArray[i]){
-			
 			dupFound = true;
-			
 		} // end if
-		
+        
 		i++;	// increment loop counter
-		
 	} // end while
 	
 	return dupFound;
@@ -334,51 +222,157 @@ bool DuplicateValue(int randomArray[], int arrayCounter, int searchValue){
 //*********************************************************************
 // FUNCTION: 		InitializeRandomArray
 // DESCRIPTION: 	Initializes random array with 5000 random values
-//
 //INPUT:
 //					randomArray[] - empty array
-//
 //OUTPUT:
 //  Return Val:		randomArray[] - array of random integers between the 
-//					range of 1 - 30,000 -- no duplicates
-//
+//                                  range of 1 - 30,000 -- no duplicates
 //CALLS TO:			RandomNum()
 //					DuplicateValue()
-//	
 // IMPLEMENTED BY: 	Chad Peters
 //**********************************************************************
 void InitializeRandomArray(int randomArray[]){
-	
 	int rNum = 0;
-	bool dupFound = false;
-	
+    
 	//seeds random number generator with system clock
-	srand(time(NULL));
-	
+	srandom(time(NULL));
+    
 	for(int arrayCounter = 0; arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES; arrayCounter++){
-		
 		// get random num
 		rNum = RandomNum();
 
 		// first time no dupes, so add to array
 		if( arrayCounter == 0){
-		
 			randomArray[arrayCounter] = rNum;
-			
 		} // end if
 		
 		if(!DuplicateValue(randomArray, arrayCounter, rNum)){
-			
 			// if no dupes add random int to array
 			randomArray[arrayCounter] = rNum;
-				
-		} else {
-			
+		}
+        else {
 			// if dupe is found subtract from arrayCounter to ensure array will be filled
 			arrayCounter--;
-			
 		}// end if else
-			
-	} // end for
-	
+        
+	} // end for	
 }
+
+//*********************************************************************
+// FUNCTION: 		DisplayResults()
+// DESCRIPTION: 	Displays results of collision resolution method to the user
+// INPUT:
+//					hashTableSize - size of hashtable given by user
+//                  totalSearches - the total number of searches needed to find half the random values
+//                  avg - the average number of searches needed per value
+//                  kAvg - the predicted average number of searches needed per value
+// CALLS TO:        CalculateLoadFactor()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+void DisplayResults(int testNum, int hashTableSize, int totalSearches, double avg, double kAvg)
+{
+    //sets number of decimal places
+    cout << fixed << showpoint << setprecision(OUTPUT_SIG_DIGS);
+    
+    //displays results to user
+    cout << RANDOM_ARRAY_UNIQUE_VALUES << " values loaded into a " << hashTableSize << " element hash table" << endl;
+    cout << "Load Factor: " << CalculateLoadFactor(hashTableSize) << endl << endl;
+    
+    cout << "Results of searching for " << RANDOM_ARRAY_UNIQUE_VALUES / RANDOM_ARRAY_SEARCH_DIVISION << " items:" << endl << endl;
+    
+    cout << "     ";
+    switch (testNum) {
+        case TEST_QUADRATIC_PROBING: cout << "Quadratic Probing" << endl;
+            break;
+        case TEST_DOUBLE_HASHING: cout << "Double Hashing" << endl;
+            break;
+        case TEST_SEPARATE_CHAINING: cout << "Chained Hashing" <<endl;
+            break;
+        default:
+            break;
+    }
+    
+    cout << setw(OUTPUT_TOTAL_SEARCH_FIELD) << totalSearches << " items examined (avg = " << avg << " items examined per search)" << endl;
+    cout << setw(OUTPUT_TOTAL_SEARCH_FIELD) << "vs" << " Knuth predicted avg = " << kAvg << " items examined per search" << endl;
+    
+}
+
+//*********************************************************************
+// FUNCTION: 		InitializeTable()
+// DESCRIPTION: 	Initializes and fills a hashtable using the selected collision resolution method
+// INPUT:
+//                  testNum - collision resolution method selected by the user
+//                  openHashTable - pointer to open address hashtable
+//                  chnHashTable - pointer to chained hashing hashtable
+//                  randomArray - array containing random values
+//                  idxStatusList - pointer to array containing status of open addressing hashtable indices
+//					hashTableSize - size of hashtable given by user
+// OUTPUT:
+//  Return Value:   noMemory - boolean to check whether memory is full
+//  Parameters:     openHashTable - pointer to open address hashtable
+//                  chnHashTable - pointer to chained hashing hashtable
+//                  idxStatusList - pointer to array containing status of open addressing hashtable indices
+// CALLS TO:        InitializeOpenTbl()
+//                  OpenHTInsertValues()
+//                  InitializeChnTbl()
+//                  ChainHTInsertValues()
+// IMPLEMENTED BY: 	Neil Townsend
+//**********************************************************************
+bool InitializeTable(int testNum, int* &openHashTable, struct chnArray* &chnHashTable, int randomArray[], int* &idxStatusList, int hashTableSize)
+{
+    bool noMemory = false;                      //boolean to check whether or not memory is full
+    
+    switch (testNum) {
+        case MENU_QUADRATIC:
+        case MENU_DOUBLE:
+            // Initialize our hashtable and corresponding index list
+            // Check for memory alloc fail
+            try {
+                InitializeOpenTbl(openHashTable, idxStatusList, hashTableSize);
+            } catch (bad_alloc& ex){
+                cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+                noMemory = true;
+            } // end try catch
+            
+            //inserts values into open address hash table
+            OpenHTInsertValues(testNum, openHashTable, randomArray, idxStatusList, hashTableSize);
+            
+            break;
+            
+        case MENU_CHAINED:
+            // Initialize our hashtable and corresponding index list
+            // Check for memory alloc fail
+            try {
+                InitializeChnTbl(chnHashTable, hashTableSize);
+            } catch (bad_alloc& ex){
+                cerr << "Memory allocation failure -- hash table / index were not fully initialized.";
+                noMemory = true;
+            } // end try catch
+            
+            //inserts values into separate chaining hash table
+            ChainHTInsertValues(chnHashTable, randomArray, hashTableSize);
+            
+            break;
+            
+        default:
+            break;
+    }
+
+    
+    
+    
+    return noMemory;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

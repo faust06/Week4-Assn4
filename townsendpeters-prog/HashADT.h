@@ -9,17 +9,17 @@
 int HashValue(int , int );
 double CalculateLoadFactor(int );
 void InitializeOpenTbl(int* & ,int* & , int);
-void InitializeChnTbl(struct chnArray* , int );
-void HashSearching(int, int [], int * , struct chnArray * , int , int *, double & , double & );
+void InitializeChnTbl(struct chnArray* & , int );
+int HashSearching(int, int [], int * , struct chnArray * , int , int *, double & , double & );
 int FindOpenValue(int ,int [],int * ,int * , int );
+int SearchQuadValue(int *, int , int );
+int SearchDoubleHashValue(int *, int , int );
 int FindChainValue(int [], struct chnArray *, int );
-
-
-int FindOpenValue(int ,int [],int * ,int * , int );
-int FindChainValue(int [], struct chnArray *, int );
-void HashSearching(int, int [], int * , struct chnArray * , int , int *, double & , double & );
-int QuadraticProbe(int [] , int , int );
+int QuadraticProbe(int [] , int, int );
 int DoubleHashValue(int [], int, int , int );
-void OpenHTInsertValues(char , int* & , int [] , int* &, int );
+void OpenHTInsertValues(int , int* & , int [] , int* &, int );
+void ChainProbe(struct chnArray *, int , int );
+void ChainHTInsertValues(struct chnArray *, int [], int );
+
 
 #endif /* defined(__townsendpeters_prog__HashADT__) */
