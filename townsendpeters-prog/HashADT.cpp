@@ -435,18 +435,17 @@ int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hash
 	int nextAddress = hashValue;
 	int finalAddress = 0;
     bool found = false;
-		
 
-	//rehashInitialVal = (hashValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
-	//nextAddress = (hashValue + rehashInitialVal) % hashTableSize;	// assign the nextAddress
+            // find next address since previous address doesn't work
+            // secondary rehash formula (key % (table size - 2)) + 1
+	rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
 				
 	do {
 		if(openHashTbl[nextAddress] != 0){
             
-            // find next address since previous address doesn't work
-            // secondary rehash formula (key % (table size - 2)) + 1
-            rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
-            nextAddress = (nextAddress + rehashInitialVal);// % hashTableSize;
+            //continue to re-add the rehash and mod until an open spot is found
+            nextAddress += rehashInitialVal;
+            nextAddress %= hashTableSize;
                             
             // return to beginning at different pos to continue searching for empty spot
             if(nextAddress > hashTableSize){
