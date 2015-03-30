@@ -39,6 +39,27 @@
 
 using namespace std;
 
+
+//**************************************************************************
+// FUNCTION:  main
+// DESCRIP:   Driver for program. Initializes variables and calls applicable
+//            functions to initialize and fill hash tables. It also calculates
+//			  and displays hashing analysis information. The program will loop
+//			  until the user no longer wants to run hashing analysis.
+// INPUT:
+//		Parameters:  argc - number of arguments entered on command line
+//                   *argv[] - array containing each argument
+// OUTPUT:
+//		Return Value: 0 on success
+//CALLS TO:	    InitializeRandomArray()
+//				GetMenuChoice()
+//				GetTableSize()
+//				InitializeTable()
+//				HashSearching()
+//				DisplayResults()
+//				DestroyTables()
+//				KeepTesting()
+//**************************************************************************
 int main(int argc, const char * argv[]) {
 	bool noMemory = false;                                  // handles memory allocation and allows for graceful exit of program
 	char runAgainChoice = ' ';                              // handles amount of testing that user wants to conduct, y to continue and n to stop
