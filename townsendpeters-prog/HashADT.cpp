@@ -307,7 +307,7 @@ int SearchDoubleHashValue(int *openHashTable, int initialValue, int hashTableSiz
         //calculates next index to search by creating a double hash of the first hash
         // secondary rehash formula (key % (table size - 2)) + 1
         rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
-        nextAddress = (nextAddress + rehashInitialVal); // %hashTableSize	// assign the nextAddress
+            nextAddress = (nextAddress + rehashInitialVal) %hashTableSize;	// assign the nextAddress
 
         //makes sure next address is not past end of hashtable
         if(nextAddress > hashTableSize){
@@ -387,6 +387,7 @@ int QuadraticProbe(int openHashTbl[], int hashVal, int hashTableSize){
 	int nextAddress = 0;				// tries another idx address to store initialValue
 	int finalAddress = 0;				// final idx address
 	int tempAddress = 0;				// temp placeholder for collision addresses
+    bool found = false;
 	
 	tempAddress = hashVal;
 	
@@ -407,8 +408,9 @@ int QuadraticProbe(int openHashTbl[], int hashVal, int hashTableSize){
         }
         else if(openHashTbl[nextAddress] == 0){
 			finalAddress = nextAddress % hashTableSize;
+            found = true;
 		}
-	}while(finalAddress == 0);
+	}while(!found);
     
 	return finalAddress;
 }
@@ -446,7 +448,7 @@ int DoubleHashValue(int openHashTbl[], int hashValue, int initialValue, int hash
             // find next address since previous address doesn't work
             // secondary rehash formula (key % (table size - 2)) + 1
             rehashInitialVal = (initialValue % (hashTableSize - SECONDARY_HASH_SUB_VAL)) + SECONDARY_HASH_ADD_VAL;
-            nextAddress = (nextAddress + rehashInitialVal);// % hashTableSize;
+            nextAddress = (nextAddress + rehashInitialVal) % hashTableSize;
                             
             // return to beginning at different pos to continue searching for empty spot
             if(nextAddress > hashTableSize){
@@ -499,11 +501,6 @@ void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], in
 		hashVal = 0,					// hashed initial value
 		finalAddress = 0;				// final hash table cell address after collision resolution
 
-    //******DEBUG***********
-    ofstream dataOut;
-    string filename = "testfile.txt";
-    //******DEBUG***********
-    
     do {
         //picks the next value from randomArray
         initialValue = randomArray[arrayCounter];
@@ -535,7 +532,10 @@ void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], in
         //continues until all random values has been placed
     }while(arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES);
     
-    //**************************DEBUG******************************
+   /* //**************************DEBUG******************************
+    ofstream dataOut;
+    string filename = "testfile.txt";
+    
     dataOut.open("/Users/nrtownsend/Desktop/openHashDebug.txt");
     for(int checkNum = 0; checkNum < hashTableSize; checkNum++){
         
@@ -543,7 +543,7 @@ void OpenHTInsertValues(int menuChoice, int* &openHashTbl, int randomArray[], in
         
     } // end for
     dataOut.close();
-    //**************************DEBUG*********************************
+  */  //**************************DEBUG*********************************
 }
 
 //*********************************************************************
@@ -628,7 +628,7 @@ bool ChainHTInsertValues(struct chnArray *chnHashTable, int randomArray[], int h
         noMemory = ChainProbe(chnHashTable, newHashValue, randomArray[insertCounter]);
     }
     
-    //**************************DEBUG******************************
+  /*  //**************************DEBUG******************************
     ofstream dataOut;
     hashNode *current;
     dataOut.open("/Users/nrtownsend/Desktop/chnHashDebug.txt");
@@ -652,7 +652,7 @@ bool ChainHTInsertValues(struct chnArray *chnHashTable, int randomArray[], int h
         
     } // end for
     dataOut.close();
-    //**************************DEBUG*********************************
+  */  //**************************DEBUG*********************************
     
     return noMemory;
 }

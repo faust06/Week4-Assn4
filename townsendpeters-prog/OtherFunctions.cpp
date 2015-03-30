@@ -54,7 +54,6 @@ double CalculateAverage(int totalSearches)
 //                  loadFactor - load factor for given hashtable
 // OUTPUT:
 // 	Return Val: 	kAvg - knuth predicted average of searches for each item
-// CALLS TO:        log()
 // IMPLEMENTED BY: 	Neil Townsend
 //**********************************************************************
 double CalculateKnuthAverage(int totalSearches, int testNum, double loadFactor)
@@ -91,7 +90,7 @@ int RandomNum(){
 	int rNum = 0;
 	
 	// (rand() % 30,000 - 1 + 1) + 1
-	rNum = (random() % (RANDOM_ARRAY_VALUE_MAX - RANDOM_ARRAY_VALUE_MIN + RANDOM_ARRAY_VALUE_MIN))
+	rNum = (rand() % (RANDOM_ARRAY_VALUE_MAX - RANDOM_ARRAY_VALUE_MIN + RANDOM_ARRAY_VALUE_MIN))
 	        + RANDOM_ARRAY_VALUE_MIN;
 	
 	return rNum;
@@ -254,7 +253,7 @@ void InitializeRandomArray(int randomArray[]){
 	int rNum = 0;
     
 	//seeds random number generator with system clock
-	srandom(time(NULL));
+	srand(time(NULL));
     
 	for(int arrayCounter = 0; arrayCounter < RANDOM_ARRAY_UNIQUE_VALUES; arrayCounter++){
 		// get random num
